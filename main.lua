@@ -1,7 +1,7 @@
 function love.run()
-	lg, la, lm, lk = love.graphics, love.audio, love.mouse, love.keyboard
-	local _INPUT = {_CUR = {}, _PRE = {}}
-	local _ACCUMULATOR = 0
+	lg, la, lm, lk        = love.graphics, love.audio, love.mouse, love.keyboard
+	local _INPUT          = {_CUR = {}, _PRE = {}}
+	local _ACCUMULATOR    = 0
 	local _FIXED_TIMESTEP = 1/60
 
 	function pressed(key) 
@@ -21,20 +21,20 @@ function love.run()
 	end
 
 	function load()
-		require("libraries/monkey")
-		require("libraries/utils")
-		Class   = require("libraries/class")
-		Camera  = require("libraries/camera")
-		Timer   = require("libraries/timer")
-		Vec2    = require("libraries/vector")
-		Physics = require("libraries/physics")
+		require('libraries/monkey')
+		require('libraries/utils')
+		Class   = require('libraries/class')
+		Camera  = require('libraries/camera')
+		Timer   = require('libraries/timer')
+		Vec2    = require('libraries/vector')
+		Physics = require('libraries/physics')
 	
-		require_all("classes")
-		require_all("rooms")
-		require_all("entities", {recursive = true})
+		require_all('classes')
+		require_all('rooms')
+		require_all('entities', {recursive = true})
 
-		lg.setDefaultFilter("nearest", "nearest")
-		lg.setLineStyle("rough")
+		lg.setDefaultFilter('nearest', 'nearest')
+		lg.setLineStyle('rough')
 		lg.setBackgroundColor(.2, .2, .2, .2)
 
 		room = Play()
@@ -42,7 +42,7 @@ function love.run()
 	
 	function update(dt)
 		room:update(dt)
-		if pressed("escape") then load() end
+		if pressed('escape') then load() end
 	end
 	
 	function draw()

@@ -66,32 +66,25 @@ function Room:draw()
 	end
 end
 
-function Room:draw_inside_cam() end
-function Room:draw_outside_cam() end
+function Room:draw_inside_cam()
+end
+
+function Room:draw_outside_cam()
+end
 
 function Room:add(a, b, c)
 	local id, types, entity
 
-	if type(a) == 'string' and type(b) == 'table' and type(c) == 'nil' then  
-		id = a
-		types = {}
-		entity = b
-	elseif type(a) == 'string' and type(b) == 'table' and type(c) == 'table' then 
-		id = a
-		types = b
-		entity = c
+	if type(a) == 'string' and type(b) == 'table' and type(c) == 'nil' then
+		id, types, entity = a, {}, b
+	elseif type(a) == 'string' and type(b) == 'table' and type(c) == 'table' then
+		id, types, entity = a, b, c
 	elseif type(a) == 'string' and type(b) == 'string' and type(c) == 'table' then 
-		id = a
-		types = {b}
-		entity = c
-	elseif type(a) == 'table' and type(b) == 'table' and type(c) == 'nil' then 
-		id = uid()
-		types = a
-		entity = b
+		id, types, entity = a, {b}, c
+	elseif type(a) == 'table' and type(b) == 'table' and type(c) == 'nil' then
+		id, types, entity = uid(), a, b
 	elseif type(a) == 'table' and type(b) == 'nil' and type(c) == 'nil' then
-		id     = uid()
-		types  = {}
-		entity = a
+		id, types, entity = uid(), {}, a
 	end
 
 	table.insert(types, entity:class())
@@ -119,8 +112,8 @@ end
 
 function Room:get_by_type(...)
 	local entities = {}
-	local types = {...}
-	local filter = {} -- filter duplicate entities using id
+	local types    = {...}
+	local filter   = {} -- filter duplicate entities using id
 
 	for _, type in pairs(types) do
 		if self._ents[type] then
@@ -129,6 +122,7 @@ function Room:get_by_type(...)
 			end
 		end
 	end
+
 	for _, ent in pairs(filter) do 
 		table.insert(entities, ent)
 	end
@@ -138,8 +132,8 @@ end
 
 function Room:count(...)
 	local entities = {}
-	local types = {...}
-	local filter = {} -- filter duplicate entities using id
+	local types    = {...}
+	local filter   = {} -- filter duplicate entities using id
 
 	for _, type in pairs(types) do
 		if self._ents[type] then
