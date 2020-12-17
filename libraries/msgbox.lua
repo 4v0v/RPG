@@ -23,7 +23,7 @@ local function parseSpeed(speed)
 end
 
 local Fifo = {}
-function Fifo.new () 
+function Fifo.new ()
 	return setmetatable({first=1,last=0},{__index=Fifo}) 
 end
 function Fifo:peek() 
