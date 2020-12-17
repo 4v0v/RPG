@@ -28,21 +28,12 @@ function Play:update(dt)
 
 	if pressed("space") then 
 		if self.msgbox:is_empty() && circ_rect_collision(player_collider, pnj1_collider) then 
-			self.msgbox:add({
-				title = "one",
-				text  = "i'm a test message on multiple lines, how are you today ? fine thank you :) ",
-			})
-			self.msgbox:add({
-				title = "two",
-				text  = "i'm a second test message"
-			})
-			self.msgbox:add({
-				text  = "i'm a third test message without title"
-			})
-			self.msgbox:add({
-				title = "fourrrrrrrrrrrrrrrrr",
-				text  = "i'm a fourth test message"
-			})
+			self.msgbox:add(
+				{title = "one", text = "i'm a test message on multiple lines, how are you today ? fine thank you :) "},
+				{title = "two", text = "i'm a second test message"},
+				{text  = "i'm a third test message without title"},
+				{title = "fourrrrrrrrrrrrrrrrr", text  = "i'm a fourth test message"}
+			)
 		elseif !self.msgbox:is_empty() then 
 			self.msgbox:next()
 		end
