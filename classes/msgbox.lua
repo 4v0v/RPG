@@ -3,6 +3,7 @@ Msgbox = Class:extend('Msgbox')
 function Msgbox:new()
 	self.timer         = Timer()
 	self.font          = lg.newFont('assets/fonts/fixedsystem.ttf', 32)
+	self.typing_sound  = la.newSource("assets/sounds/typewriter.wav", "static")
 	self.default_font  = lg.newFont()
 	self.opt_char      = '-'
 	self.padding       = 10
@@ -12,20 +13,24 @@ function Msgbox:new()
 	self.messages      = {}
 	self.current_text  = ''
 	self.current_index = 0
-	self.is_blinking      = true
-	self.is_text_complete = false
+	self.is_blinking   = true
+	self.is_typing     = true
 
-	self.timer:every(.4, fn() self.is_blinking = !self.is_blinking end, _, 'blink')
+	self.timer:every(.4, fn() 
+		self.is_blinking = !self.is_blinking 
+	end, _, 'blink')
+
 	self.timer:every(.03, fn() 
 		if self:is_empty() then return end
 		local text = self.messages[1].text
 
 		if text == self.current_text then
-			if !self.is_text_complete then self.is_text_complete = true end
+			if self.is_typing then self.is_typing = false end
 		else 
 			local next_letter = text:sub(self.current_index, self.current_index)
 			self.current_text ..= next_letter
 			self.current_index += 1
+			self.typing_sound:play()
 		end
 	end, _, 'push_new_letter')
 end
@@ -39,8 +44,8 @@ function Msgbox:draw()
 	local message = self.messages[1]
 
 	local width, height = lg.getDimensions()
-	local text   = self.messages[1].text
-	local title  = self.messages[1].title
+	local text   = message.text
+	local title  = message.title
 	local box_w  = width - (2 * self.padding)
 	local box_h  = (height / 3) - (2 * self.padding)
 	local box_x  = self.padding
@@ -72,7 +77,7 @@ function Msgbox:draw()
 	lg.setColor(self.msg_color)
 	lg.printf(self.current_text, text_x, text_y, text_w ) 
 
-	if self.is_blinking && self.is_text_complete then
+	if self.is_blinking && !self.is_typing then
 		local char_x = width - self.padding * 2 - self.font:getWidth('>')
 		local char_y = height - self.padding * 2 - self.font:getHeight()
 		lg.setColor(1, 1, 1)
@@ -82,7 +87,6 @@ function Msgbox:draw()
 
 	lg.setFont(self.default_font)
 end
-
 
 function Msgbox:add(...)
 	local messages = {...}
@@ -99,7 +103,7 @@ function Msgbox:next()
 		table.remove(self.messages, 1)
 		self.current_text = ''
 		self.current_index = 0
-		self.is_text_complete = false
+		self.is_typing = true
 	else
 		self.current_text = text
 	end
