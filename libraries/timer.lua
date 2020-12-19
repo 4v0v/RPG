@@ -160,7 +160,7 @@ function Timer:tween(time, subject, target, method, tag, after)
 end
 
 function Timer:once(action, tag) 
-	return self:every(math.huge, action, tag) 
+	return self:every(math.huge, action, _, tag) 
 end
 
 function Timer:always(action, tag)
