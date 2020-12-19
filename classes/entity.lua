@@ -8,8 +8,8 @@ function Entity:new(opts)
 	self.types   = get(opts, 'types', {})
 	self.pos     = Vec2(get(opts, 'x', 0), get(opts, 'y', 0))
 	self.z       = get(opts, 'z', 10)
-	self.out_cam = get(opts, 'out_cam', false)
 	self.state   = get(opts, 'state', 'default')
+	self.outside_camera = get(opts, 'outside_camera', false)
 end
 
 function Entity:draw() end

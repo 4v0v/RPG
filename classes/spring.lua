@@ -1,26 +1,29 @@
 Spring = Class:extend('Spring')
 
-function Spring:new(value, k, d)
-    self.target_val = value
-    self.val        = value
-
-    self.k = k or 100
-    self.d = d or 10
-    self.v = 0
+function Spring:new(value, stiffness, dampening)
+    self.target = value
+    self.value  = value
+    self.v      = 0
+    self.stiffness = stiffness or 100
+    self.dampening = dampening or 10
 end
 
 function Spring:update(dt)
-    local temp_value = self.val - self.target_val
-    local a = -self.k* temp_value - self.d*self.v
-    self.v = self.v + a*dt
-    self.val = self.val + self.v*dt
+		local diff = self.value - self.target
+		local a    = -self.stiffness * diff - self.dampening * self.v
+		
+    self.v     = self.v + a * dt
+    self.value = self.value + self.v * dt
 end
 
-function Spring:pull(force, k, d)
-    self.val = self.val + force
-    if k then self.k = k end
-    if d then self.d = d end
+function Spring:pull(force)
+    self.value = self.value + force
 end
 
-function Spring:value() return self.val end
-function Spring:set_value(x) self.target_val, self.val = x, x end
+function Spring:get() 
+	return self.value
+end
+
+function Spring:set(x) 
+	self.target, self.value = x, x 
+end

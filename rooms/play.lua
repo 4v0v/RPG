@@ -44,7 +44,7 @@ function Play:draw_inside_cam()
 	Play.super.draw_inside_cam()
 end
 
-function Play:draw_outside_cam()
-	Play.super.draw_outside_cam()
+function Play:draw_outside_camera()
+	Play.super.draw_outside_camera()
 	self.msgbox:draw()
 end

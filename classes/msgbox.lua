@@ -3,8 +3,8 @@ Msgbox = Class:extend('Msgbox')
 function Msgbox:new()
 	self.timer         = Timer()
 	self.font          = lg.newFont('assets/fonts/fixedsystem.ttf', 32)
-	self.typing_sound  = la.newSource("assets/sounds/typewriter.wav", "static")
 	self.default_font  = lg.newFont()
+	self.typing_sound  = la.newSource("assets/sounds/typewriter.wav", "static")
 	self.opt_char      = '-'
 	self.padding       = 10
 	self.msg_color     = {1, 1, 1, 1}

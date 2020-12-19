@@ -8,7 +8,7 @@ function love.run()
 		return _INPUT._CUR[key] and not _INPUT._PRE[key] 
 	end
 	
-	function released(key) 
+	function released(key)
 		return _INPUT._PRE[key] and not _INPUT._CUR[key] 
 	end
 
@@ -36,17 +36,21 @@ function love.run()
 		lg.setDefaultFilter('nearest', 'nearest')
 		lg.setLineStyle('rough')
 		lg.setBackgroundColor(.2, .2, .2, .2)
+		-- lm.setCursor(lm.newCursor("assets/images/cursor.png", 0, 0))
 
-		room = Play()
+		menu_room = Menu()
+		-- play_room = Play()
 	end
 	
 	function update(dt)
-		room:update(dt)
+		menu_room:update(dt)
+		-- play_room:update(dt)
 		if pressed('escape') then load() end
 	end
 	
 	function draw()
-		room:draw()
+		menu_room:draw()
+		-- play_room:draw()
 	end
 
 	load()

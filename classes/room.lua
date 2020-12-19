@@ -16,7 +16,6 @@ function Room:update(dt)
 	for _, ent in pairs(self._ents['All']) do 
 		ent:update(dt)
 	end
-
 	-- delete dead entities
 	for _, ent in pairs(self._ents['All']) do 
 		if ent.dead then
@@ -26,7 +25,6 @@ function Room:update(dt)
 			end
 		end
 	end
-
 	-- push entities from queue
 	for _, queued_ent in pairs(self._queue) do
 		for _, type in ipairs(queued_ent.types) do 
@@ -48,7 +46,7 @@ function Room:draw()
 	self.camera:draw(function()
 		self:draw_inside_cam()
 		for _, ent in pairs(entities) do 
-			if ent.draw && !ent.out_cam then 
+			if ent.draw && !ent.outside_camera then 
 				local _r,_g, _b, _a = love.graphics.getColor()
 				ent:draw()
 				love.graphics.setColor(_r, _g, _b, _a)
@@ -56,9 +54,9 @@ function Room:draw()
 		end
 	end)
 
-	self:draw_outside_cam()
+	self:draw_outside_camera()
 	for _, ent in pairs(entities) do 
-		if ent.draw && ent.out_cam then
+		if ent.draw && ent.outside_camera then
 			local _r,_g, _b, _a = love.graphics.getColor()
 			ent:draw()
 			love.graphics.setColor(_r, _g, _b, _a)
@@ -69,7 +67,7 @@ end
 function Room:draw_inside_cam()
 end
 
-function Room:draw_outside_cam()
+function Room:draw_outside_camera()
 end
 
 function Room:add(a, b, c)

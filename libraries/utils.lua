@@ -108,21 +108,42 @@ function table.random_key(t)
 	return keys[math.random(#keys)]
 end
 
-function circ_circ_collision(c1, c2)
+function circ_circ_collision(...)
+	local args = {...}
+	local c1, c2 = args[1], args[2]
+
+	if #args == 6 then 
+		c1, c2 = {args[1], args[2], args[3]}, {args[4], args[5], args[6]}
+	end
+
 	if #c1 == 3 then c1 = {x = c1[1], y = c1[2], r = c1[3]} end
 	if #c2 == 3 then c2 = {x = c2[1], y = c2[2], r = c2[3]} end
 
 	return (c2.x - c1.x)^2 + (c2.y - c1.y)^2 < ((c1.r + c2.r)^2)
 end
 
-function rect_rect_collision(r1, r2)
+function rect_rect_collision(...)
+	local args = {...}
+	local r1, r2 = args[1], args[2]
+
+	if #args == 8 then 
+		r1, r2 = {args[1], args[2], args[3], args[4]}, {args[5], args[6], args[7], args[8]}
+	end
+
 	if #r1 == 4 then r1 = {x = r1[1], y = r1[2], w = r1[3], h = r1[4]} end
 	if #r2 == 4 then r2 = {x = r2[1], y = r2[2], w = r2[3], h = r2[4]} end
 
 	return r1.x < r2.x + r2.w and r1.x + r1.w > r2.x and r1.y < r2.y + r2.h and r1.h + r1.y > r2.y
 end
 
-function circ_rect_collision(c, r)
+function circ_rect_collision(...)
+	local args = {...}
+	local c, r = args[1], args[2]
+
+	if #args == 7 then 
+		c, r = {args[1], args[2], args[3]}, {args[4], args[5], args[6], args[7]}
+	end
+
 	if #c == 3 then c = {x = c[1], y = c[2], r = c[3]} end
 	if #r == 4 then r = {x = r[1], y = r[2], w = r[3], h = r[4]} end
 
@@ -132,7 +153,14 @@ function circ_rect_collision(c, r)
 	return math.sqrt( (c.x - _x)^2 + (c.y - _y)^2 ) <= c.r
 end
 
-function rect_circ_collision(r, c)
+function rect_circ_collision(...)
+	local args = {...}
+	local r, c = args[1], args[2]
+
+	if #args == 7 then 
+		r, c = {args[1], args[2], args[3], args[4]}, {args[5], args[6], args[7]}
+	end
+
 	if #r == 4 then r = {x = r[1], y = r[2], w = r[3], h = r[4]} end
 	if #c == 3 then c = {x = c[1], y = c[2], r = c[3]} end
 
@@ -142,28 +170,56 @@ function rect_circ_collision(r, c)
 	return math.sqrt( (c.x - _x)^2 + (c.y - _y)^2 ) <= c.r
 end
 
-function rect_point_collision(r, p)
+function rect_point_collision(...)
+	local args = {...}
+	local r, p = args[1], args[2]
+
+	if #args == 6 then 
+		r, p = {args[1], args[2], args[3], args[4]}, {args[5], args[6]}
+	end
+
 	if #r == 4 then r = {x = r[1], y = r[2], w = r[3], h = r[4]} end
 	if #p == 2 then p = {x = p[1], y = p[2]} end
 
 	return p.x >= r.x and p.x <= r.x + r.w and p.y >= r.y and p.y <= r.y + r.h
 end
 
-function point_rect_collision(p, r)
+function point_rect_collision(...)
+	local args = {...}
+	local p, r = args[1], args[2]
+
+	if #args == 6 then 
+		p, r = {args[1], args[2]}, {args[3], args[4], args[5], args[6]}
+	end
+
 	if #p == 2 then p = {x = p[1], y = p[2]} end
 	if #r == 4 then r = {x = r[1], y = r[2], w = r[3], h = r[4]} end
 
 	return p.x >= r.x and p.x <= r.x + r.w and p.y >= r.y and p.y <= r.y + r.h
 end
 
-function point_circ_collision(p, c)
+function point_circ_collision(...)
+	local args = {...}
+	local p, c = args[1], args[2]
+
+	if #args == 5 then 
+		p, c = {args[1], args[2]}, {args[3], args[4], args[5]}
+	end
+
 	if #p == 2 then p = {x = p[1], y = p[2]} end
 	if #c == 3 then c = {x = c[1], y = c[2], r = c[3]} end
 
   return math.sqrt( (p.x - c.x)^2 + (p.y - c.y)^2 ) <= c.r 
 end
 
-function circ_point_collision(c, p)
+function circ_point_collision(...)
+	local args = {...}
+	local c, p = args[1], args[2]
+
+	if #args == 5 then 
+		c, p = {args[1], args[2], args[3]}, {args[4], args[5]}
+	end
+
 	if #c == 3 then c = {x = c[1], y = c[2], r = c[3]} end
 	if #p == 2 then p = {x = p[1], y = p[2]} end
 
