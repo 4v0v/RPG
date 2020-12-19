@@ -165,6 +165,10 @@ function Room:every(...)
 	self.timer:every(...)
 end
 
+function Room:every_immediate(...)
+	self.timer:every_immediate(...)
+end
+
 function Room:during(...)
 	self.timer:during(...)
 end

@@ -48,6 +48,10 @@ function Entity:every(...)
 	self.timer:every(...)
 end
 
+function Entity:every_immediate(...)
+	self.timer:every_immediate(...)
+end
+
 function Entity:during(...)
 	self.timer:during(...)
 end
