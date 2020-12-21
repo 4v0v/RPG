@@ -21,6 +21,10 @@ function love.run()
 	end
 
 	function load()
+		lg.setDefaultFilter('nearest', 'nearest')
+		lg.setLineStyle('rough')
+		lg.setBackgroundColor(.2, .2, .2, .2)
+
 		require('libraries/monkey')
 		require('libraries/utils')
 		Class   = require('libraries/class')
@@ -33,24 +37,19 @@ function love.run()
 		require_all('rooms')
 		require_all('entities', {recursive = true})
 
-		lg.setDefaultFilter('nearest', 'nearest')
-		lg.setLineStyle('rough')
-		lg.setBackgroundColor(.2, .2, .2, .2)
-		-- lm.setCursor(lm.newCursor("assets/images/cursor.png", 0, 0))
-
-		menu_room = Menu()
-		-- play_room = Play()
+		-- menu_room = Menu()
+		play_room = Play()
 	end
 	
 	function update(dt)
-		menu_room:update(dt)
-		-- play_room:update(dt)
+		-- menu_room:update(dt)
+		play_room:update(dt)
 		if pressed('escape') then load() end
 	end
 	
 	function draw()
-		menu_room:draw()
-		-- play_room:draw()
+		-- menu_room:draw()
+		play_room:draw()
 	end
 
 	load()
