@@ -12,7 +12,8 @@ function Entity:new(opts)
 	self.outside_camera = get(opts, 'outside_camera', false)
 end
 
-function Entity:draw() end
+function Entity:draw() 
+end
 
 function Entity:update(dt) 
 	self.timer:update(dt) 
@@ -34,6 +35,10 @@ function Entity:kill()
 	self.timer:destroy()
 	self.dead = true
 	self.room = nil
+end
+
+function Entity:set_state(state)
+	self.state = state
 end
 
 function Entity:after(...)

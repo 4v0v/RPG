@@ -38,15 +38,23 @@ function Player:update(dt)
 
 	if self.state == 'move_left' then 
 		self.anim_move_left:update(dt)
+		self.pos.x = self.pos.x - self.speed * dt
+		self.dir = Vec2(-1, 0)
 
 	elseif self.state == 'move_right' then
 		self.anim_move_right:update(dt)
+		self.pos.x = self.pos.x + self.speed * dt 
+		self.dir = Vec2(1, 0)
 
 	elseif self.state == 'move_up'    then
 		self.anim_move_up:update(dt)
+		self.pos.y = self.pos.y - self.speed * dt
+		self.dir = Vec2(0, -1)
 
 	elseif self.state == 'move_down'  then
 		self.anim_move_down:update(dt)
+		self.pos.y = self.pos.y + self.speed * dt
+		self.dir = Vec2(0, 1)
 
 	elseif self.state == 'idle_left'  then
 		self.anim_idle_left:update(dt)
@@ -91,31 +99,4 @@ function Player:draw()
 		self.anim_idle_down:draw(self.pos.x, self.pos.y, _, 5, 5)
 	end
 
-end
-
-function Player:move_left(dt)
-	if self.state != 'move_left' then self.state = 'move_left' end
-	self.pos.x = self.pos.x - self.speed * dt
-	self.dir = Vec2(-1, 0)
-end
-
-function Player:move_right(dt)
-	if self.state != 'move_right' then self.state = 'move_right' end
-
-	self.pos.x = self.pos.x + self.speed * dt 
-	self.dir = Vec2(1, 0)
-end
-
-function Player:move_up(dt)
-	if self.state != 'move_up' then self.state = 'move_up' end
-
-	self.pos.y = self.pos.y - self.speed * dt
-	self.dir = Vec2(0, -1)
-end
-
-function Player:move_down(dt)
-	if self.state != 'move_down' then self.state = 'move_down' end
-
-	self.pos.y = self.pos.y + self.speed * dt
-	self.dir = Vec2(0, 1)
 end

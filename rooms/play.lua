@@ -20,20 +20,20 @@ function Play:update(dt)
 	local pnj1_collider   = {pnj1.pos.x, pnj1.pos.y, pnj1.w, pnj1.w}
 
 	if self.msgbox:is_empty() then
-		if down("q") || down("left")  then player:move_left(dt)  end
-		if down("d") || down("right") then player:move_right(dt) end
-		if down("z") || down("up")    then player:move_up(dt)    end
-		if down("s") || down("down")  then player:move_down(dt)  end
+		if down("q") || down("left")  then player:set_state('move_left')  end
+		if down("d") || down("right") then player:set_state('move_right') end
+		if down("z") || down("up")    then player:set_state('move_up')    end
+		if down("s") || down("down")  then player:set_state('move_down')  end
 	end
 
 	if released('q') && player.state == 'move_left' then 
-		player.state = 'idle_left'
+		player:set_state('idle_left')
 	elseif released('d') && player.state == 'move_right' then 
-		player.state = 'idle_right'
+		player:set_state('idle_right')
 	elseif released('z') && player.state == 'move_up' then 
-		player.state = 'idle_up'
+		player:set_state('idle_up')
 	elseif released('s') && player.state == 'move_down' then 
-		player.state = 'idle_down'
+		player:set_state('idle_down')
 	end
 
 	if pressed("space") then 
