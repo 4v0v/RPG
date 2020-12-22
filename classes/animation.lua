@@ -134,7 +134,7 @@ function Animation:new(delay, anim_frames, mode, actions)
   self.delay       = delay
   self.anim_frames = anim_frames
   self.size        = self.anim_frames.size
-  self.mode   = mode
+  self.mode        = mode
   self.actions     = actions
   self.anim_logic  = AnimationLogic(self.delay, self.anim_frames.size, self.mode, self.actions)
 end
@@ -145,4 +145,8 @@ end
 
 function Animation:draw(x, y, r, sx, sy, ox, oy, color)
   self.anim_frames:draw(self.anim_logic.frame, x, y, r, sx, sy, ox, oy, color)
+end
+
+function Animation:clone()
+	return Animation(self.delay, self.anim_frames, self.mode, self.actions)
 end
