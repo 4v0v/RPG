@@ -192,3 +192,7 @@ end
 function Room:follow(...)
 	self.camera:follow(...)
 end
+
+function Room:get_mouse_position() return
+	self.camera:get_mouse_position()
+end

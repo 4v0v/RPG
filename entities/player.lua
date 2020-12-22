@@ -12,8 +12,6 @@ Player.frames_idle_left  = AnimationFrames(Player.spritesheet, 24,  32, {{2, 4}}
 Player.frames_idle_down  = AnimationFrames(Player.spritesheet, 24,  32, {{2, 3}})
 Player.frames_idle_right = AnimationFrames(Player.spritesheet, 24,  32, {{2, 2}})
 
-
-
 function Player:new(x, y)
 	Player.super.new(self, {x = x, y = y})
 	
@@ -34,7 +32,6 @@ end
 
 function Player:update(dt)
 	Player.super.update(self, dt)
-
 
 	if self.state == 'move_left' then 
 		self.anim_move_left:update(dt)
@@ -58,15 +55,19 @@ function Player:update(dt)
 
 	elseif self.state == 'idle_left'  then
 		self.anim_idle_left:update(dt)
+		self.dir = Vec2(-1, 0)
 
 	elseif self.state == 'idle_right' then
 		self.anim_idle_right:update(dt)
+		self.dir = Vec2(1, 0)
 
 	elseif self.state == 'idle_up'    then
 		self.anim_idle_up:update(dt)
+		self.dir = Vec2(0, -1)
 
 	elseif self.state == 'idle_down'  then
 		self.anim_idle_down:update(dt)
+		self.dir = Vec2(0, 1)
 	end
 
 end

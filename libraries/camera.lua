@@ -39,8 +39,12 @@ function Camera:draw(func)
 	love.graphics.pop()
 end
 
-function Camera:follow(x, y) 
-	self.cam.target_x, self.cam.target_y = x or self.cam.target_x, y or self.cam.ty 
+function Camera:follow(x, y)
+	local _x, _y
+	if type(x) == 'table' then _x, _y = x.x, x.y else _x, _y = x, y end
+
+	self.cam.target_x = _x or self.cam.target_x
+	self.cam.target_y = _y or self.cam.target_y
 end
 
 function Camera:zoom(s) 
@@ -51,47 +55,47 @@ function Camera:shake(s, r)
 	self.shk.s, self.shk.r = s or 0 ,r or 0 
 end
 
-function Camera:getPosition() 
-	return self.cam.x, self.cam.y, self.cam.target_x, self.cam.ty 
+function Camera:get_position() 
+	return self.cam.x, self.cam.y, self.cam.target_x, self.cam.target_y 
 end
 
-function Camera:getScale() 
+function Camera:get_scale() 
 	return self.cam.s, self.cam.target_s 
 end
 
-function Camera:setSmoothness(sv) 
+function Camera:set_smoothness(sv) 
 	self.cam.sv = sv 
 end
 
-function Camera:setScaleSmoothness(sv) 
+function Camera:set_scale_smoothness(sv) 
 	self.cam.ssv = ssv 
 end
 
-function Camera:setScale(s) 
+function Camera:set_scale(s) 
 	self.cam.s, self.cam.target_s = s, s 
 end
 
-function Camera:setPosition(x, y) 
+function Camera:set_position(x, y) 
 	self.cam.x, self.cam.target_x = x or self.cam.x, x or self.cam.target_x
 	self.cam.y, self.cam.target_y = y or self.cam.y, y or self.cam.target_y
 end
 
-function Camera:camToScreen(x, y)
+function Camera:cam_to_screen(x, y)
 	x, y = x - self.cam.x, y - self.cam.y
 	x, y = x * self.cam.s, y * self.cam.s
 	x, y = x + self.w / 2 + self.x, y + self.h / 2 + self.y
 	return x, y
 end
 
-function Camera:screenToCam(x, y)
+function Camera:screen_to_cam(x, y)
 	x, y = x - self.w / 2 - self.x, y - self.h / 2 - self.y
 	x, y = x / self.cam.s, y / self.cam.s
 	x, y = x + self.cam.x, y + self.cam.y
 	return x, y
 end
 
-function Camera:getMousePosition() return
-	self:screenToCam(love.mouse.getPosition()) 
+function Camera:get_mouse_position() return
+	self:screen_to_cam(love.mouse.getPosition()) 
 end
 
 return setmetatable({}, {__call = Camera.new})

@@ -23,7 +23,7 @@ function love.run()
 	function load()
 		lg.setDefaultFilter('nearest', 'nearest')
 		lg.setLineStyle('rough')
-		lg.setBackgroundColor(.1, .1, .1, .1)
+		lg.setBackgroundColor(.2, .2, .2, .2)
 
 		require('libraries/monkey')
 		require('libraries/utils')
