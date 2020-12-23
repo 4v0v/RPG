@@ -41,6 +41,14 @@ function Entity:set_state(state)
 	self.state = state
 end
 
+function Entity:is_state(state)
+	return self.state == state
+end
+
+function Entity:get_state()
+	return self.state
+end
+
 function Entity:after(...)
 	self.timer:after(...)
 end

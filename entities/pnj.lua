@@ -103,3 +103,12 @@ function Pnj:draw()
 		self.anim_idle_down:draw(self.pos.x, self.pos.y, _, 5, 5)
 	end
 end
+
+function Pnj:aabb()
+	return {
+		x = self.pos.x - (24 * 5)/2 + 20,
+		y = self.pos.y - (32 * 5)/2 + 120,
+		w = 24 * 5 - 40,
+		h = 32 * 5 - 120,
+	}
+end

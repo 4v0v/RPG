@@ -4,15 +4,17 @@ Door.closed       = lg.newQuad(0, 0, 32, 64, Door.spritesheet)
 Door.opened       = lg.newQuad(160, 0, 32, 64, Door.spritesheet)
 Door.frames_open  = AnimationFrames(Door.spritesheet, 32, 64, {{1, 1}, {2, 1}, {3, 1}, {4, 1}, {5, 1}, {6, 1}})
 Door.frames_close = AnimationFrames(Door.spritesheet, 32, 64, {{6, 1}, {5, 1}, {4, 1}, {3, 1}, {2, 1}, {1, 1}})
--- Door.anim_opening = Animation(.3, Door.frames_open, 'once'  , {[6] = fn() self.state = 'opened' end})
--- Door.anim_closing = Animation(.3, Door.frames_close, 'once' , {[6] = fn() self.state = 'closed' end})
+Door.anim_opening = Animation(.05, Door.frames_open, 'once' )
+Door.anim_closing = Animation(.05, Door.frames_close, 'once')
 
 function Door:new(x, y)
 	Door.super.new(self, { x = x, y = y})
 	self.state    = 'closed'
-	self.opening  = Animation(.3, Door.frames_open, 'once'  , {[6] = fn() self.state = 'opened' end})
-	self.closing  = Animation(.3, Door.frames_close, 'once' , {[6] = fn() self.state = 'closed' end})
+	self.opening  = Door.anim_opening:clone()
+	self.closing  = Door.anim_closing:clone()
 
+	self.opening:set_actions({[6] = fn() self.opening:reset() self.state = 'opened' end})
+	self.closing:set_actions({[6] = fn() self.closing:reset() self.state = 'closed' end})
 
 end
 
@@ -27,11 +29,9 @@ function Door:update(dt)
 
 	elseif self.state == 'opened' then 
 
-	elseif self.state == 'closed' then 
+	elseif self.state == 'closed' then
 
 	end
-	print(self.state)
-
 end
 
 function Door:draw()
@@ -49,4 +49,14 @@ function Door:draw()
 		local _x, _y, _w, _h = Door.closed:getViewport()
 		lg.draw(Door.spritesheet, Door.closed, self.pos.x, self.pos.y, _, 3, _, _w/2, _h/2)
 	end
+
+end
+
+function Door:aabb()
+	return {
+		x = self.pos.x - (32 * 3)/2,
+		y = self.pos.y - (64 * 3)/2 + 150,
+		w = 32 * 3,
+		h = 64 * 3 - 150
+	}
 end
