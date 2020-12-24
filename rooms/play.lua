@@ -13,6 +13,8 @@ function Play:new(id)
 	self:add('door', Door(320, 511))
 	self:add('signpost', Signpost(-350, 500))
 
+	self:add('rabbit', Rabbit(-200, -200))
+
 	self:zoom(0.5)
 end
 

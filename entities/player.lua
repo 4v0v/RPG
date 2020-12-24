@@ -2,15 +2,15 @@ Player = Entity:extend('Player')
 
 Player.spritesheet = lg.newImage('assets/images/blk.png')
 
-Player.frames_move_up    = AnimationFrames(Player.spritesheet, 24,  32, {{1, 1},  {3, 1}})
-Player.frames_move_left  = AnimationFrames(Player.spritesheet, 24,  32, {{1, 4},  {3, 4}})
-Player.frames_move_down  = AnimationFrames(Player.spritesheet, 24,  32, {{1, 3},  {3, 3}})
-Player.frames_move_right = AnimationFrames(Player.spritesheet, 24,  32, {{1, 2},  {3, 2}})
+Player.frames_move_up    = AnimationFrames(Player.spritesheet, 24,  32, _, _, {{1, 1},  {3, 1}})
+Player.frames_move_left  = AnimationFrames(Player.spritesheet, 24,  32, _, _, {{1, 4},  {3, 4}})
+Player.frames_move_down  = AnimationFrames(Player.spritesheet, 24,  32, _, _, {{1, 3},  {3, 3}})
+Player.frames_move_right = AnimationFrames(Player.spritesheet, 24,  32, _, _, {{1, 2},  {3, 2}})
 
-Player.frames_idle_up    = AnimationFrames(Player.spritesheet, 24,  32, {{2, 1}})
-Player.frames_idle_left  = AnimationFrames(Player.spritesheet, 24,  32, {{2, 4}})
-Player.frames_idle_down  = AnimationFrames(Player.spritesheet, 24,  32, {{2, 3}})
-Player.frames_idle_right = AnimationFrames(Player.spritesheet, 24,  32, {{2, 2}})
+Player.frames_idle_up    = AnimationFrames(Player.spritesheet, 24,  32, _, _, {{2, 1}})
+Player.frames_idle_left  = AnimationFrames(Player.spritesheet, 24,  32, _, _, {{2, 4}})
+Player.frames_idle_down  = AnimationFrames(Player.spritesheet, 24,  32, _, _, {{2, 3}})
+Player.frames_idle_right = AnimationFrames(Player.spritesheet, 24,  32, _, _, {{2, 2}})
 
 function Player:new(x, y)
 	Player.super.new(self, {x = x, y = y})
@@ -142,10 +142,13 @@ end
 function Player:stop_moving()
 	if self:is_state('move_left') || self:is_state('run_left') then 
 		self:set_state('idle_left')
+
 	elseif self:is_state('move_right') || self:is_state('run_right') then 
 		self:set_state('idle_right')
+
 	elseif self:is_state('move_up') || self:is_state('run_up') then 
 		self:set_state('idle_up')
+
 	elseif self:is_state('move_down') || self:is_state('run_down') then 
 		self:set_state('idle_down')
 	end

@@ -1,25 +1,17 @@
--- The class responsible for holding an animation's graphics.
--- It takes in an already loaded image, the width and height of each frames, and a list of frames in terms of indexed position on the image.
--- player_sheet = Image('player_sheet')
--- player_idle_frames = AnimationFrames(player_sheet, 32, 32, {{1, 1}, {2, 1}})
--- player_run_frames = AnimationFrames(player_sheet, 32, 32, {{1, 2}, {2, 2}, {3, 2}})
--- player_attack_frames = AnimationFrames(player_sheet, 32, 32, {{1, 3}, {2, 3}, {3, 3}, {4, 3}})
---
--- In the example above we first load an image, and then load 3 player animations.
--- Each animation comes from different rows in the same spritesheet, and that's reflected by the last argument in each call.
--- If your animation comes from a single spritesheet that doesn't have multiple animations, then you can omit the last argument and it will automatically go through it.
 AnimationFrames = Class:extend('AnimationFrames')
 
-function AnimationFrames:new(image, frame_w, frame_h, frames_list)
-  self.image   = image
-	self.frame_w = frame_w
-	self.frame_h = frame_h
+function AnimationFrames:new(image, frame_w, frame_h, offset_x, offset_y, frames_list)
+  self.image    = image
+	self.frame_w  = frame_w
+	self.frame_h  = frame_h
+	self.offset_x = offset_x or 0
+	self.offset_y = offset_y or 0
 
   self.frames = {}
   for i, frame in ipairs(frames_list) do
 		self.frames[i] = love.graphics.newQuad(
-			(frame[1]-1) * self.frame_w, 
-			(frame[2]-1) * self.frame_h, 
+			(frame[1]-1) * self.frame_w + self.offset_x, 
+			(frame[2]-1) * self.frame_h + self.offset_y, 
 			self.frame_w, self.frame_h, 
 			self.image:getWidth(), self.image:getHeight()
 		)
