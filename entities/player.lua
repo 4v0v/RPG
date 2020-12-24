@@ -6,7 +6,6 @@ Player.frames_move_up    = AnimationFrames(Player.spritesheet, 24,  32, _, _, {{
 Player.frames_move_left  = AnimationFrames(Player.spritesheet, 24,  32, _, _, {{1, 4},  {3, 4}})
 Player.frames_move_down  = AnimationFrames(Player.spritesheet, 24,  32, _, _, {{1, 3},  {3, 3}})
 Player.frames_move_right = AnimationFrames(Player.spritesheet, 24,  32, _, _, {{1, 2},  {3, 2}})
-
 Player.frames_idle_up    = AnimationFrames(Player.spritesheet, 24,  32, _, _, {{2, 1}})
 Player.frames_idle_left  = AnimationFrames(Player.spritesheet, 24,  32, _, _, {{2, 4}})
 Player.frames_idle_down  = AnimationFrames(Player.spritesheet, 24,  32, _, _, {{2, 3}})

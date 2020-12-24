@@ -6,7 +6,6 @@ Pnj.frames_move_up    = AnimationFrames(Pnj.spritesheet, 24,  32, _, _, {{1, 1},
 Pnj.frames_move_right = AnimationFrames(Pnj.spritesheet, 24,  32, _, _, {{1, 2},  {3, 2}})
 Pnj.frames_move_down  = AnimationFrames(Pnj.spritesheet, 24,  32, _, _, {{1, 3},  {3, 3}})
 Pnj.frames_move_left  = AnimationFrames(Pnj.spritesheet, 24,  32, _, _, {{1, 4},  {3, 4}})
-
 Pnj.frames_idle_up    = AnimationFrames(Pnj.spritesheet, 24,  32, _, _, {{2, 1}})
 Pnj.frames_idle_right = AnimationFrames(Pnj.spritesheet, 24,  32, _, _, {{2, 2}})
 Pnj.frames_idle_down  = AnimationFrames(Pnj.spritesheet, 24,  32, _, _, {{2, 3}})
