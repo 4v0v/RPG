@@ -4,7 +4,6 @@ Play = Room:extend('Play')
 function Play:new(id)
 	Play.super.new(self, id)
 
-	self.house = lg.newImage('assets/images/house.png')
 
 	self.msgbox = Msgbox()
 
@@ -12,8 +11,8 @@ function Play:new(id)
 	self:add('pnj1', Pnj(-100, 0))
 	self:add('door', Door(320, 511))
 	self:add('signpost', Signpost(-350, 500))
-
 	self:add('rabbit', Rabbit(-200, -200))
+	self:add('house', House(0, 0))
 
 	self:zoom(0.5)
 end
@@ -22,29 +21,28 @@ function Play:update(dt)
 	Play.super.update(self, dt)
 	self.msgbox:update(dt)
 
-	local player   = self:get('player')
-	local door     = self:get('door')
-	local pnj1     = self:get('pnj1')
-	local signpost = self:get('signpost')
-
 	if !self.msgbox:is_empty() then 
 		if pressed("space") then self.msgbox:next() end
 		return
 	end
 
-	if down("q") then 
-		if down('lctrl') then player:set_state('run_left') else player:set_state('move_left') end
+	local player   = self:get('player')
+	local door     = self:get('door')
+	local pnj1     = self:get('pnj1')
+	local signpost = self:get('signpost')
 
-	elseif down("d") then
-		if down('lctrl') then player:set_state('run_right') else player:set_state('move_right') end
-
-	elseif down("z") then 
-		if down('lctrl') then player:set_state('run_up') else player:set_state('move_up') end  
-
-	elseif down("s") then 
-		if down('lctrl') then player:set_state('run_down') else player:set_state('move_down') end   
+	if down('lctrl') then
+		if     down("z") then player:set_state('run_up')
+		elseif down("q") then player:set_state('run_left')
+		elseif down("s") then player:set_state('run_down')
+		elseif down("d") then player:set_state('run_right') end
+	else 
+		if     down("z") then player:set_state('move_up')
+		elseif down("q") then player:set_state('move_left')
+		elseif down("s") then player:set_state('move_down')
+		elseif down("d") then player:set_state('move_right') end
 	end
-	
+
 	if released('q') || released('d') || released('z') || released('s') then 
 		player:stop_moving()
 	end
@@ -65,7 +63,6 @@ function Play:update(dt)
 			if door:is_state('closed') then door:set_state('opening') end
 		end
 
-
 		player:stop_moving()
 	end
 
@@ -73,8 +70,6 @@ function Play:update(dt)
 end
 
 function Play:draw_inside_cam()
-	lg.draw(self.house, 0, 0, _, 4)
-	
 	Play.super.draw_inside_cam()
 end
 
