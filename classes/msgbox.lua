@@ -90,7 +90,12 @@ end
 
 function Msgbox:add(...)
 	local messages = {...}
-	for messages do 
+	for messages do
+		if #it == 1 then 
+			it = {text = it[1]}
+		elseif #it == 2 then 
+			it = {title = it[1], text = it[2]}
+		end
 		table.insert(self.messages, it)
 	end
 end
