@@ -10,7 +10,7 @@ function Camera:new(x, y, w, h, s)
 		obj.w = w or love.graphics.getWidth()
 		obj.h = h or love.graphics.getHeight()
 		obj.cam = { x = 0, y = 0, s = s or 1, target_x = 0, target_y = 0, target_s = s or 1, sv = 10, ssv = 10 }
-		obj.shk = { s = 0, tick = 1/60, timer = 0, xrs = 0, yrs = 0}
+		obj.shk = { tick = 1/60, timer = 0, s = 0, xrs = 0, yrs = 0}
 	return setmetatable(obj, {__index = Camera})
 end
 

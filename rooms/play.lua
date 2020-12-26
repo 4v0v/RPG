@@ -10,6 +10,13 @@ function Play:new(id)
 	@:add('door', Door(320, 511))
 	@:add('signpost', Signpost(-350, 500))
 	@:add('rabbit', Rabbit(-200, -200))
+
+	for 5 do 
+		@:after({.1, .2}, fn() 
+			@:add(Rabbit(love.math.random(-200, 0), love.math.random(-200, 0)))
+		end)
+	end
+
 	@:add('house', House(0, 0))
 
 	@:zoom(0.5)

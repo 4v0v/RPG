@@ -96,13 +96,13 @@ function table.print(t)
 	for k,v in pairs(others)    do print(v.key .. ' : ' .. tostring(v.value)) end
 end
 
-function table.random_value(t) 
+function random_value(t) 
 	local _values = {} 
 	for _, v in pairs(t) do _values[#_values + 1] = v end
 	return _values[math.random(#_values)]
 end
 
-function table.random_key(t) 
+function random_key(t) 
 	local keys = {} 
 	for k, _ in pairs(t) do keys[#keys + 1] = k end
 	return keys[math.random(#keys)]

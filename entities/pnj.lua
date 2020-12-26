@@ -28,7 +28,7 @@ function Pnj:new(x, y)
 	@.anim_idle_right = Animation(.3, Pnj.frames_idle_right )
 
 	@:every(3, function()
-		@:set_state(table.random_value({'idle_left', 'idle_right', 'idle_up', 'idle_down'}))
+		@:set_state(random_value({'idle_left', 'idle_right', 'idle_up', 'idle_down'}))
 	end, _, 'change_direction')
 end
 

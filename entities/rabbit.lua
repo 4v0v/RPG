@@ -13,16 +13,18 @@ Rabbit.frames_idle_right = AnimationFrames(Rabbit.spritesheet, 72, 72, _, _,{{1,
 function Rabbit:new(x, y)
 	Rabbit.super.new(@, { x = x, y = y})
 
-	@:set_state('move_left')
+	@:set_state(random_value({'move_left', 'move_right'}))
 
-	@.anim_move_up    = Animation(.2, Rabbit.frames_move_up    )
-	@.anim_move_left  = Animation(.2, Rabbit.frames_move_left  )
-	@.anim_move_down  = Animation(.2, Rabbit.frames_move_down  )
-	@.anim_move_right = Animation(.2, Rabbit.frames_move_right )
-	@.anim_idle_up    = Animation(.2, Rabbit.frames_idle_up    )
-	@.anim_idle_left  = Animation(.2, Rabbit.frames_idle_left  )
-	@.anim_idle_down  = Animation(.2, Rabbit.frames_idle_down  )
-	@.anim_idle_right = Animation(.2, Rabbit.frames_idle_right )
+	local _speed = love.math.random() * .3
+
+	@.anim_move_up    = Animation(_speed, Rabbit.frames_move_up    )
+	@.anim_move_left  = Animation(_speed, Rabbit.frames_move_left  )
+	@.anim_move_down  = Animation(_speed, Rabbit.frames_move_down  )
+	@.anim_move_right = Animation(_speed, Rabbit.frames_move_right )
+	@.anim_idle_up    = Animation(_speed, Rabbit.frames_idle_up    )
+	@.anim_idle_left  = Animation(_speed, Rabbit.frames_idle_left  )
+	@.anim_idle_down  = Animation(_speed, Rabbit.frames_idle_down  )
+	@.anim_idle_right = Animation(_speed, Rabbit.frames_idle_right )
 
 	@.anim_move_left:set_actions({
 		[3] = fn() @.pos.x -= 64 end,
