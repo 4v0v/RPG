@@ -1,33 +1,33 @@
 Play = Room:extend('Play')
 
 function Play:new(id)
-	Play.super.new(self, id)
+	Play.super.new(@, id)
 
-	self.msgbox = Msgbox()
+	@.msgbox = Msgbox()
 
-	self:add('player', Player(0, 0))
-	self:add('pnj', Pnj(-100, 0))
-	self:add('door', Door(320, 511))
-	self:add('signpost', Signpost(-350, 500))
-	self:add('rabbit', Rabbit(-200, -200))
-	self:add('house', House(0, 0))
+	@:add('player', Player(0, 0))
+	@:add('pnj', Pnj(-100, 0))
+	@:add('door', Door(320, 511))
+	@:add('signpost', Signpost(-350, 500))
+	@:add('rabbit', Rabbit(-200, -200))
+	@:add('house', House(0, 0))
 
-	self:zoom(0.5)
+	@:zoom(0.5)
 end
 
 function Play:update(dt)
-	Play.super.update(self, dt)
-	self.msgbox:update(dt)
+	Play.super.update(@, dt)
+	@.msgbox:update(dt)
 
-	if !self.msgbox:is_empty() then 
-		if pressed('space') then self.msgbox:next() end
+	if !@.msgbox:is_empty() then 
+		if pressed('space') then @.msgbox:next() end
 		return
 	end
 
-	local player   = self:get('player')
-	local door     = self:get('door')
-	local pnj      = self:get('pnj')
-	local signpost = self:get('signpost')
+	local player   = @:get('player')
+	local door     = @:get('door')
+	local pnj      = @:get('pnj')
+	local signpost = @:get('signpost')
 
 	if down('lctrl') then
 		if     down('z') then player:set_state('run_up')
@@ -47,14 +47,14 @@ function Play:update(dt)
 
 	if pressed('space') then 
 		if rect_rect_collision(player:aabb(), pnj:aabb()) then 
-			self.msgbox:add(
+			@.msgbox:add(
 				{"Nun",   "I'm a nun."},
 				{"Player","Hello, nun."},
 				{"Nun",   "Hello player."}
 			)
-			
+
 		elseif rect_rect_collision(player:aabb(), signpost:aabb()) then 
-			self.msgbox:add({"Mayor's house"})
+			@.msgbox:add({"Mayor's house"})
 
 		elseif rect_rect_collision(player:aabb(), door:aabb()) then 
 			if door:is_state('opened') then door:set_state('closing') end
@@ -64,14 +64,10 @@ function Play:update(dt)
 		player:stop_moving()
 	end
 
-	self:follow(player.pos.x, player.pos.y)
-end
-
-function Play:draw_inside_cam()
-	Play.super.draw_inside_cam()
+	@:follow(player.pos.x, player.pos.y)
 end
 
 function Play:draw_outside_camera()
 	Play.super.draw_outside_camera()
-	self.msgbox:draw()
+	@.msgbox:draw()
 end

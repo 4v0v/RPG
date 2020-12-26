@@ -8,54 +8,53 @@ Door.anim_opening = Animation(.05, Door.frames_open, 'once' )
 Door.anim_closing = Animation(.05, Door.frames_close, 'once')
 
 function Door:new(x, y)
-	Door.super.new(self, { x = x, y = y})
-	self.state    = 'closed'
-	self.opening  = Door.anim_opening:clone()
-	self.closing  = Door.anim_closing:clone()
+	Door.super.new(@, { x = x, y = y})
+	@.state    = 'closed'
+	@.opening  = Door.anim_opening:clone()
+	@.closing  = Door.anim_closing:clone()
 
-	self.opening:set_actions({[6] = fn() self.opening:reset() self.state = 'opened' end})
-	self.closing:set_actions({[6] = fn() self.closing:reset() self.state = 'closed' end})
-
+	@.opening:set_actions({[6] = fn() @.opening:reset() @.state = 'opened' end})
+	@.closing:set_actions({[6] = fn() @.closing:reset() @.state = 'closed' end})
 end
 
 function Door:update(dt)
-	Door.super.update(self, dt)
+	Door.super.update(@, dt)
 
-	if self.state == 'closing' then 
-		self.closing:update(dt)
+	if @.state == 'closing' then 
+		@.closing:update(dt)
 
-	elseif self.state == 'opening' then 
-		self.opening:update(dt)
+	elseif @.state == 'opening' then 
+		@.opening:update(dt)
 
-	elseif self.state == 'opened' then 
+	elseif @.state == 'opened' then 
 
-	elseif self.state == 'closed' then
+	elseif @.state == 'closed' then
 
 	end
 end
 
 function Door:draw()
-	if self.state == 'closing' then 
-		self.closing:draw(self.pos.x, self.pos.y, _, 3)
+	if @.state == 'closing' then 
+		@.closing:draw(@.pos.x, @.pos.y, _, 3)
 
-	elseif self.state == 'opening' then 
-		self.opening:draw(self.pos.x, self.pos.y, _, 3)
+	elseif @.state == 'opening' then 
+		@.opening:draw(@.pos.x, @.pos.y, _, 3)
 
-	elseif self.state == 'opened' then 
+	elseif @.state == 'opened' then 
 		local _x, _y, _w, _h = Door.opened:getViewport()
-		lg.draw(Door.spritesheet, Door.opened, self.pos.x, self.pos.y, _, 3, _, _w/2, _h/2)
+		lg.draw(Door.spritesheet, Door.opened, @.pos.x, @.pos.y, _, 3, _, _w/2, _h/2)
 
-	elseif self.state == 'closed' then 
+	elseif @.state == 'closed' then 
 		local _x, _y, _w, _h = Door.closed:getViewport()
-		lg.draw(Door.spritesheet, Door.closed, self.pos.x, self.pos.y, _, 3, _, _w/2, _h/2)
+		lg.draw(Door.spritesheet, Door.closed, @.pos.x, @.pos.y, _, 3, _, _w/2, _h/2)
 	end
 
 end
 
 function Door:aabb()
 	return {
-		x = self.pos.x - (32 * 3)/2,
-		y = self.pos.y - (64 * 3)/2 + 150,
+		x = @.pos.x - (32 * 3)/2,
+		y = @.pos.y - (64 * 3)/2 + 150,
 		w = 32 * 3,
 		h = 64 * 3 - 150
 	}

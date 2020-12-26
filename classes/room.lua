@@ -1,50 +1,50 @@
 Room = Class:extend('Room')
 
 function Room:new(id)
-	self.id     = id or uid()
-	self.timer  = Timer()
-	self.camera = Camera()
-	self._queue = {}
-	self._ents  = { All = {} }
+	@.id     = id or uid()
+	@.timer  = Timer()
+	@.camera = Camera()
+	@._queue = {}
+	@._ents  = { All = {} }
 end
 
 function Room:update(dt)
-	self.timer:update(dt)
-	self.camera:update(dt)
+	@.timer:update(dt)
+	@.camera:update(dt)
 
 	-- update entitites
-	for _, ent in pairs(self._ents['All']) do 
+	for _, ent in pairs(@._ents['All']) do 
 		ent:update(dt)
 	end
 	-- delete dead entities
-	for _, ent in pairs(self._ents['All']) do 
+	for _, ent in pairs(@._ents['All']) do 
 		if ent.dead then
-			self._ents['All'][ent.id] = nil
+			@._ents['All'][ent.id] = nil
 			for _, type in pairs(ent.types) do 
-				self._ents[type][ent.id] = nil
+				@._ents[type][ent.id] = nil
 			end
 		end
 	end
 	-- push entities from queue
-	for _, queued_ent in pairs(self._queue) do
+	for _, queued_ent in pairs(@._queue) do
 		for _, type in ipairs(queued_ent.types) do 
-			if not self._ents[type] then 
-				self._ents[type] = {}
+			if not @._ents[type] then 
+				@._ents[type] = {}
 			end
-			self._ents[type][queued_ent.id] = queued_ent
+			@._ents[type][queued_ent.id] = queued_ent
 		end
-		self._ents['All'][queued_ent.id] = queued_ent
+		@._ents['All'][queued_ent.id] = queued_ent
 	end
-	self._queue = {}
+	@._queue = {}
 end
 
 function Room:draw()
 	local entities = {}
-	for _, ent in pairs(self._ents['All']) do table.insert(entities, ent) end
+	for _, ent in pairs(@._ents['All']) do table.insert(entities, ent) end
 	table.sort(entities, function(a, b) if a.z == b.z then return a.id < b.id else return a.z < b.z end end)
 
-	self.camera:draw(function()
-		self:draw_inside_cam()
+	@.camera:draw(function()
+		@:draw_inside_cam()
 		for _, ent in pairs(entities) do 
 			if ent.draw && !ent.outside_camera then 
 				local _r,_g, _b, _a = love.graphics.getColor()
@@ -54,7 +54,7 @@ function Room:draw()
 		end
 	end)
 
-	self:draw_outside_camera()
+	@:draw_outside_camera()
 	for _, ent in pairs(entities) do 
 		if ent.draw && ent.outside_camera then
 			local _r,_g, _b, _a = love.graphics.getColor()
@@ -92,18 +92,18 @@ function Room:add(a, b, c)
 
 	entity.types    = types  
 	entity.id       = id
-	entity.room     = self
-	self._queue[id] = entity
+	entity.room     = @
+	@._queue[id] = entity
 	return entity 
 end
 
 function Room:kill(id) 
-	local entity = self:get(id)
+	local entity = @:get(id)
 	if entity then entity:kill() end
 end
 
 function Room:get(id) 
-	local entity = self._ents['All'][id]
+	local entity = @._ents['All'][id]
 	if not entity or entity.dead then return nil end
 	return entity
 end
@@ -114,8 +114,8 @@ function Room:get_by_type(...)
 	local filter   = {} -- filter duplicate entities using id
 
 	for _, type in pairs(types) do
-		if self._ents[type] then
-			for _, ent in pairs(self._ents[type]) do
+		if @._ents[type] then
+			for _, ent in pairs(@._ents[type]) do
 				if not ent.dead then filter[ent.id] = ent end
 			end
 		end
@@ -134,8 +134,8 @@ function Room:count(...)
 	local filter   = {} -- filter duplicate entities using id
 
 	for _, type in pairs(types) do
-		if self._ents[type] then
-			for _, ent in pairs(self._ents[type]) do
+		if @._ents[type] then
+			for _, ent in pairs(@._ents[type]) do
 				if not ent.dead then filter[ent.id] = ent end
 			end
 		end
@@ -154,45 +154,45 @@ function Room:leave()
 end
 
 function Room:after(...)
-	self.timer:after(...)
+	@.timer:after(...)
 end
 
 function Room:tween(...)
-	self.timer:tween(...)
+	@.timer:tween(...)
 end
 
 function Room:every(...)
-	self.timer:every(...)
+	@.timer:every(...)
 end
 
 function Room:every_immediate(...)
-	self.timer:every_immediate(...)
+	@.timer:every_immediate(...)
 end
 
 function Room:during(...)
-	self.timer:during(...)
+	@.timer:during(...)
 end
 
 function Room:once(...)
-	self.timer:once(...)
+	@.timer:once(...)
 end
 
 function Room:always(...)
-	self.timer:always(...)
+	@.timer:always(...)
 end
 
 function Room:zoom(...)
-	self.camera:zoom(...)
+	@.camera:zoom(...)
 end
 
 function Room:shake(...)
-	self.camera:shake(...)
+	@.camera:shake(...)
 end
 
 function Room:follow(...)
-	self.camera:follow(...)
+	@.camera:follow(...)
 end
 
 function Room:get_mouse_position() return
-	self.camera:get_mouse_position()
+	@.camera:get_mouse_position()
 end

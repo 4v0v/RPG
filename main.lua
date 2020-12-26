@@ -68,9 +68,9 @@ function love.run()
 
 		_ACCUMULATOR = _ACCUMULATOR + love.timer.step()
 		while _ACCUMULATOR >= _FIXED_TIMESTEP do
-				update(_FIXED_TIMESTEP)
-				for k,v in pairs(_INPUT._CUR) do _INPUT._PRE[k] = v end -- input update
-				_ACCUMULATOR = _ACCUMULATOR - _FIXED_TIMESTEP
+			update(_FIXED_TIMESTEP)
+			for k,v in pairs(_INPUT._CUR) do _INPUT._PRE[k] = v end -- input update
+			_ACCUMULATOR = _ACCUMULATOR - _FIXED_TIMESTEP
 		end
 
 		lg.origin()

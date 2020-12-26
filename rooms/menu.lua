@@ -1,9 +1,9 @@
 Menu = Room:extend('Menu')
 
 function Menu:new(id)
-	Menu.super.new(self, id)
+	Menu.super.new(@, id)
 	
-	self:add('txt', Text(lg.getWidth()/2, lg.getHeight()/2, "Spring\x21", 
+	@:add('txt', Text(lg.getWidth()/2, lg.getHeight()/2, "Spring\x21", 
 		{
 			font           = lg.newFont('assets/fonts/fixedsystem.ttf', 32),
 			radian         = .2,
@@ -14,16 +14,16 @@ function Menu:new(id)
 end
 
 function Menu:update(dt)
-	Menu.super.update(self, dt)
+	Menu.super.update(@, dt)
 
-	local text = self:get('txt')
+	local text = @:get('txt')
 
 	if point_rect_collision({lm.getX(), lm.getY()}, text:aabb()) then
-		self:once(fn()
+		@:once(fn()
 			text.scale_spring:pull(.25)
-			self.is_inside = true
+			@.is_inside = true
 		end, 'is_inside')
 	else 
-		self.timer:remove('is_inside')
+		@.timer:remove('is_inside')
 	end
 end

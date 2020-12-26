@@ -1,29 +1,29 @@
 Entity = Class:extend('Entity')
 
 function Entity:new(opts)
-	self.timer   = Timer()
-	self.dead    = false
-	self.room    = {}
-	self.id      = ''
-	self.types   = get(opts, 'types', {})
-	self.pos     = Vec2(get(opts, 'x', 0), get(opts, 'y', 0))
-	self.z       = get(opts, 'z', 10)
-	self.state   = get(opts, 'state', 'default')
-	self.outside_camera = get(opts, 'outside_camera', false)
+	@.timer   = Timer()
+	@.dead    = false
+	@.room    = {}
+	@.id      = ''
+	@.types   = get(opts, 'types', {})
+	@.pos     = Vec2(get(opts, 'x', 0), get(opts, 'y', 0))
+	@.z       = get(opts, 'z', 0)
+	@.state   = get(opts, 'state', 'default')
+	@.outside_camera = get(opts, 'outside_camera', false)
 end
 
 function Entity:draw() 
 end
 
 function Entity:update(dt) 
-	self.timer:update(dt) 
+	@.timer:update(dt) 
 end
 
 function Entity:is_type(...) 
 	local types = {...}
 
 	for _, type in ipairs(types) do
-		for _, t in ipairs(self.types) do 
+		for _, t in ipairs(@.types) do 
 			if type == t then return true end
 		end
 	end
@@ -32,47 +32,47 @@ function Entity:is_type(...)
 end
 
 function Entity:kill()
-	self.timer:destroy()
-	self.dead = true
-	self.room = nil
+	@.timer:destroy()
+	@.dead = true
+	@.room = nil
 end
 
 function Entity:set_state(state)
-	self.state = state
+	@.state = state
 end
 
 function Entity:is_state(state)
-	return self.state == state
+	return @.state == state
 end
 
 function Entity:get_state()
-	return self.state
+	return @.state
 end
 
 function Entity:after(...)
-	self.timer:after(...)
+	@.timer:after(...)
 end
 
 function Entity:tween(...)
-	self.timer:tween(...)
+	@.timer:tween(...)
 end
 
 function Entity:every(...)
-	self.timer:every(...)
+	@.timer:every(...)
 end
 
 function Entity:every_immediate(...)
-	self.timer:every_immediate(...)
+	@.timer:every_immediate(...)
 end
 
 function Entity:during(...)
-	self.timer:during(...)
+	@.timer:during(...)
 end
 
 function Entity:once(...)
-	self.timer:once(...)
+	@.timer:once(...)
 end
 
 function Entity:always(...)
-	self.timer:always(...)
+	@.timer:always(...)
 end

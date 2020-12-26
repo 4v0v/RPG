@@ -1,24 +1,24 @@
 Sinewave = Class:extend('Sinewave')
 
 function Sinewave:new(value, speed, amplitude)
-    self.val       = value or 0
-    self.v         = value or 0
-    self.speed     = speed or 1
-    self.amplitude = amplitude or 1
-    self.time = 0
-    self.sine = 0
-    self.is_updating = true
+    @.val       = value or 0
+    @.v         = value or 0
+    @.speed     = speed or 1
+    @.amplitude = amplitude or 1
+    @.time = 0
+    @.sine = 0
+    @.is_updating = true
 end
 
 function Sinewave:update(dt)
-    if self.is_updating then 
-        self.time = self.time + dt
-        self.sine = (self.amplitude * math.sin(self.time * self.speed))
-        self.val  = self.v + self.sine
+    if @.is_updating then 
+        @.time = @.time + dt
+        @.sine = (@.amplitude * math.sin(@.time * @.speed))
+        @.val  = @.v + @.sine
     end
 end
 
-function Sinewave:value() return self.val end
-function Sinewave:stop() self.is_updating = false end
-function Sinewave:play() self.is_updating = true end
-function Sinewave:setValue(v) self.val = v; self.v = v end
+function Sinewave:value() return @.val end
+function Sinewave:stop() @.is_updating = false end
+function Sinewave:play() @.is_updating = true end
+function Sinewave:setValue(v) @.val = v; @.v = v end

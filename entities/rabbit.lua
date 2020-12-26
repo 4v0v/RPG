@@ -11,71 +11,74 @@ Rabbit.frames_idle_down  = AnimationFrames(Rabbit.spritesheet, 72, 72, _, _,{{1,
 Rabbit.frames_idle_right = AnimationFrames(Rabbit.spritesheet, 72, 72, _, _,{{1, 8}, {2, 8}, {3, 8}, {4, 8}})
 
 function Rabbit:new(x, y)
-	Rabbit.super.new(self, { x = x, y = y})
+	Rabbit.super.new(@, { x = x, y = y})
 
-	self:set_state('move_left')
+	@:set_state('move_left')
 
-	self.anim_move_up    = Animation(.2, Rabbit.frames_move_up    )
-	self.anim_move_left  = Animation(.2, Rabbit.frames_move_left  )
-	self.anim_move_down  = Animation(.2, Rabbit.frames_move_down  )
-	self.anim_move_right = Animation(.2, Rabbit.frames_move_right )
-	self.anim_idle_up    = Animation(.2, Rabbit.frames_idle_up    )
-	self.anim_idle_left  = Animation(.2, Rabbit.frames_idle_left  )
-	self.anim_idle_down  = Animation(.2, Rabbit.frames_idle_down  )
-	self.anim_idle_right = Animation(.2, Rabbit.frames_idle_right )
+	@.anim_move_up    = Animation(.2, Rabbit.frames_move_up    )
+	@.anim_move_left  = Animation(.2, Rabbit.frames_move_left  )
+	@.anim_move_down  = Animation(.2, Rabbit.frames_move_down  )
+	@.anim_move_right = Animation(.2, Rabbit.frames_move_right )
+	@.anim_idle_up    = Animation(.2, Rabbit.frames_idle_up    )
+	@.anim_idle_left  = Animation(.2, Rabbit.frames_idle_left  )
+	@.anim_idle_down  = Animation(.2, Rabbit.frames_idle_down  )
+	@.anim_idle_right = Animation(.2, Rabbit.frames_idle_right )
 
-	self.anim_move_left:set_actions({
-		[3] = fn() self.pos.x -= 64 end,
-		[4] = fn() self.pos.x -= 64 end,
+	@.anim_move_left:set_actions({
+		[3] = fn() @.pos.x -= 64 end,
+		[4] = fn() @.pos.x -= 64 end,
 	})
 
-	self.anim_move_right:set_actions({
-		[2] = fn() self.pos.x += 64 end,
-		[3] = fn() self.pos.x += 64 end,
+	@.anim_move_right:set_actions({
+		[2] = fn() @.pos.x += 64 end,
+		[3] = fn() @.pos.x += 64 end,
 	})
 
-	self:every(5, fn() 
-		if self:is_state('move_left') then 
-			self:set_state('move_right')
-		elseif self:is_state('move_right') then
-			self:set_state('move_left')
+	@:every(5, fn() 
+		if @:is_state('move_left') then 
+			@:set_state('move_right')
+		elseif @:is_state('move_right') then
+			@:set_state('move_left')
 		end
 	end, _, 'change_direction')
 end
 
 function Rabbit:update(dt)
-	Rabbit.super.update(self, dt)
+	Rabbit.super.update(@, dt)
 
-	if self:is_state('move_left') then 
-		self.anim_move_left:update(dt)
-	elseif self:is_state('move_right') then
-		self.anim_move_right:update(dt)
+	if @:is_state('move_left') then 
+		@.anim_move_left:update(dt)
+	elseif @:is_state('move_right') then
+		@.anim_move_right:update(dt)
 	end
 
-	-- self.anim_move_up:update(dt)
-	-- self.anim_move_down:update(dt)
-	-- self.anim_move_right:update(dt)
-	-- self.anim_idle_up:update(dt)
-	-- self.anim_idle_left:update(dt)
-	-- self.anim_idle_down:update(dt)
-	-- self.anim_idle_right:update(dt)
+	-- @.anim_move_up:update(dt)
+	-- @.anim_move_down:update(dt)
+	-- @.anim_move_right:update(dt)
+	-- @.anim_idle_up:update(dt)
+	-- @.anim_idle_left:update(dt)
+	-- @.anim_idle_down:update(dt)
+	-- @.anim_idle_right:update(dt)
+
+	@.z = @.pos.y
+
 end
 
 function Rabbit:draw()
-	if self:is_state('move_left') then 
-		self.anim_move_left:draw(self.pos.x, self.pos.y, _, 5, 5)
+	if @:is_state('move_left') then 
+		@.anim_move_left:draw(@.pos.x, @.pos.y, _, 5, 5)
 
-	elseif self:is_state('move_right') then
-		self.anim_move_right:draw(self.pos.x, self.pos.y, _, 5, 5)
+	elseif @:is_state('move_right') then
+		@.anim_move_right:draw(@.pos.x, @.pos.y, _, 5, 5)
 	end
 
-	-- self.anim_move_up:draw(self.pos.x, self.pos.y, _, 5, 5)
-	-- self.anim_move_down:draw(self.pos.x, self.pos.y, _, 5, 5)
-	-- self.anim_move_right:draw(self.pos.x, self.pos.y, _, 5, 5)
-	-- self.anim_idle_up:draw(self.pos.x, self.pos.y, _, 5, 5)
-	-- self.anim_idle_left:draw(self.pos.x, self.pos.y, _, 5, 5)
-	-- self.anim_idle_down:draw(self.pos.x, self.pos.y, _, 5, 5)
-	-- self.anim_idle_right:draw(self.pos.x, self.pos.y, _, 5, 5)
+	-- @.anim_move_up:draw(@.pos.x, @.pos.y, _, 5, 5)
+	-- @.anim_move_down:draw(@.pos.x, @.pos.y, _, 5, 5)
+	-- @.anim_move_right:draw(@.pos.x, @.pos.y, _, 5, 5)
+	-- @.anim_idle_up:draw(@.pos.x, @.pos.y, _, 5, 5)
+	-- @.anim_idle_left:draw(@.pos.x, @.pos.y, _, 5, 5)
+	-- @.anim_idle_down:draw(@.pos.x, @.pos.y, _, 5, 5)
+	-- @.anim_idle_right:draw(@.pos.x, @.pos.y, _, 5, 5)
 end
 
 function Rabbit:aabb()
