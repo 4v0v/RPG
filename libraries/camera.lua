@@ -10,7 +10,7 @@ function Camera:new(x, y, w, h, s)
 		obj.w = w or love.graphics.getWidth()
 		obj.h = h or love.graphics.getHeight()
 		obj.cam = { x = 0, y = 0, s = s or 1, target_x = 0, target_y = 0, target_s = s or 1, sv = 10, ssv = 10 }
-		obj.shk = { s = 0, r = 0, tick = 1/60, timer = 0, xrs = 0, yrs = 0, rr = 0}
+		obj.shk = { s = 0, tick = 1/60, timer = 0, xrs = 0, yrs = 0}
 	return setmetatable(obj, {__index = Camera})
 end
 
@@ -22,18 +22,15 @@ function Camera:update(dt)
 	self.shk.timer = self.shk.timer + dt
 	if self.shk.timer > self.shk.tick then 
 		if self.shk.s ~= 0 then self.shk.xrs, self.shk.yrs = _rand()*self.shk.s, _rand()*self.shk.s else self.shk.xrs, self.shk.yrs = 0, 0 end
-		if self.shk.r ~= 0 then self.shk.rr = _rand()*self.shk.r else self.shk.rr = 0 end
 		self.shk.timer = self.shk.timer - self.shk.tick
 	end
 	if math.abs(self.shk.s) > 5  then self.shk.s = _smooth(self.shk.s, 0, 5, dt) else	if self.shk.s ~= 0 then self.shk.s = 0 end end
-	if math.abs(self.shk.r) > 0.1 then self.shk.r = _smooth(self.shk.r, 0, 5, dt) else if self.shk.r ~= 0 then self.shk.r = 0 end end
 end
 
 function Camera:draw(func)
 	love.graphics.push()
 	love.graphics.translate(self.x + self.w/2, self.y + self.h/2)
 	love.graphics.scale(self.cam.s)
-	love.graphics.rotate(self.shk.rr)
 	love.graphics.translate(-self.cam.x + self.shk.xrs, -self.cam.y + self.shk.yrs)
 	func()
 	love.graphics.pop()
@@ -51,8 +48,8 @@ function Camera:zoom(s)
 	self.cam.target_s = s 
 end
 
-function Camera:shake(s, r) 
-	self.shk.s, self.shk.r = s or 0 ,r or 0 
+function Camera:shake(s) 
+	self.shk.s = s or 0
 end
 
 function Camera:get_position() 
