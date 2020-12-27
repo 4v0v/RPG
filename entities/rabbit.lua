@@ -15,7 +15,7 @@ function Rabbit:new(x, y)
 
 	@:set_state(random_value({'move_left', 'move_right'}))
 
-	local _speed = love.math.random() * .3
+	local _speed = love.math.random() * .4 + .1
 
 	@.anim_move_up    = Animation(_speed, Rabbit.frames_move_up    )
 	@.anim_move_left  = Animation(_speed, Rabbit.frames_move_left  )
@@ -36,12 +36,18 @@ function Rabbit:new(x, y)
 		[3] = fn() @.pos.x += 64 end,
 	})
 
-	@:every(5, fn() 
-		if @:is_state('move_left') then 
-			@:set_state('move_right')
-		elseif @:is_state('move_right') then
-			@:set_state('move_left')
-		end
+	@.anim_move_up:set_actions({
+		[3] = fn() @.pos.y -= 32 end,
+		[4] = fn() @.pos.y -= 32 end,
+	})
+
+	@.anim_move_down:set_actions({
+		[3] = fn() @.pos.y += 32 end,
+		[4] = fn() @.pos.y += 32 end,
+	})
+
+	@:every({1, 5}, fn() 
+		@:set_state(random_value({'move_left', 'move_right', 'move_up', 'move_down'}))
 	end, _, 'change_direction')
 end
 
@@ -50,8 +56,15 @@ function Rabbit:update(dt)
 
 	if @:is_state('move_left') then 
 		@.anim_move_left:update(dt)
+
 	elseif @:is_state('move_right') then
 		@.anim_move_right:update(dt)
+
+	elseif @:is_state('move_up') then
+		@.anim_move_up:update(dt)
+
+	elseif @:is_state('move_down') then
+		@.anim_move_down:update(dt)
 	end
 
 	-- @.anim_move_up:update(dt)
@@ -72,6 +85,12 @@ function Rabbit:draw()
 
 	elseif @:is_state('move_right') then
 		@.anim_move_right:draw(@.pos.x, @.pos.y, _, 5, 5)
+
+		elseif @:is_state('move_up') then
+		@.anim_move_up:draw(@.pos.x, @.pos.y, _, 5, 5)
+		
+	elseif @:is_state('move_down') then
+		@.anim_move_down:draw(@.pos.x, @.pos.y, _, 5, 5)
 	end
 
 	-- @.anim_move_up:draw(@.pos.x, @.pos.y, _, 5, 5)
