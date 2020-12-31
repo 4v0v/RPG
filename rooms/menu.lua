@@ -18,10 +18,12 @@ function Menu:update(dt)
 
 	local text = @:get('txt')
 
-	if point_rect_collision({lm.getX(), lm.getY()}, text:aabb()) then
+	local _x, _y = lm:getPosition()
+
+	if point_rect_collision({_x, _y}, text:aabb()) then
 		@:once(fn()
+			print('test')
 			text.scale_spring:pull(.25)
-			@.is_inside = true
 		end, 'is_inside')
 	else 
 		@.timer:remove('is_inside')

@@ -174,8 +174,8 @@ function Timer:tween(time, subject, target, method, tag, after)
 	return self.timers[tag]
 end
 
-function Timer:once(action, tag) 
-	return self:every(math.huge, action, _, tag) 
+function Timer:once(action, tag)
+	return self:every_immediate(math.huge, action, _, tag) 
 end
 
 function Timer:always(action, tag)
