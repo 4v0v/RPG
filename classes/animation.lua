@@ -6,7 +6,7 @@ function AnimationFrames:new(image, frame_w, frame_h, offset_x, offset_y, frames
 	@.frame_h  = frame_h
 	@.offset_x = offset_x or 0
 	@.offset_y = offset_y or 0
-	@.frames   = table.map(frames_list, fn(frame)
+	@.frames   = map(frames_list, fn(frame)
 		return love.graphics.newQuad(
 			(frame[1]-1) * @.frame_w + @.offset_x, 
 			(frame[2]-1) * @.frame_h + @.offset_y, 
