@@ -15,10 +15,10 @@ function Game:draw()
 	@.rooms[@.current]:draw()
 end
 
-function Game:add_room(room_name, room)
-	@.rooms[room_name] = room
+function Game:add(name, room)
+	@.rooms[name] = room
 end
 
-function Game:change_room(room_name)
-	@.current = room_name
+function Game:change(name)
+	@.current = name
 end

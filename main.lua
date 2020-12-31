@@ -39,21 +39,21 @@ function love.run()
 		require_all('entities', {recursive = true})
 
 		game = Game()
-		game:add_room('menu', Menu())
-		game:add_room('play', Play())
+		game:add('menu', Menu())
+		game:add('play', Play())
 
-		game:change_room('menu')
+		game:change('menu')
 	end
 	
 	function update(dt)
-		game.rooms[game.current]:update(dt)
+		game:update(dt)
 		if pressed('escape') then load() end
 		if pressed('1') then game:change_room('menu') end
 		if pressed('2') then game:change_room('play') end
 	end
 	
 	function draw()
-		game.rooms[game.current]:draw()
+		game:draw()
 	end
 
 	load()
