@@ -6,16 +6,14 @@ function AnimationFrames:new(image, frame_w, frame_h, offset_x, offset_y, frames
 	@.frame_h  = frame_h
 	@.offset_x = offset_x or 0
 	@.offset_y = offset_y or 0
-
-  @.frames = {}
-  for i, frame in ipairs(frames_list) do
-		@.frames[i] = love.graphics.newQuad(
+	@.frames   = table.map(frames_list, fn(frame)
+		return love.graphics.newQuad(
 			(frame[1]-1) * @.frame_w + @.offset_x, 
 			(frame[2]-1) * @.frame_h + @.offset_y, 
 			@.frame_w, @.frame_h, 
 			@.image:getWidth(), @.image:getHeight()
 		)
-	end
+	end)
 end
 
 function AnimationFrames:draw(frame, x, y, r, sx, sy, ox, oy)
@@ -60,8 +58,9 @@ function AnimationLogic:update(dt)
         @.direction = -@.direction
         @.frame = @.frame + 2 * @.direction
 			end
-    end
-		if get(@, {'actions', @.frame}) then @.actions[@.frame]() end
+		end
+		local action = get(@, {'actions', @.frame})
+		if action then @.actions[@.frame]() end
 		
 		@.timer = @.timer - delay
   end

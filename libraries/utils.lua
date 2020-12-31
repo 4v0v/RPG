@@ -1,7 +1,7 @@
 function uid() 
 	return ("xxxxxxxxxxxxxxxx"):gsub("[x]", function() 
 		local r = math.random(16) return ("0123456789ABCDEF"):sub(r, r) 
-	end) 
+	end)
 end
 
 function get(object, path, default)
@@ -23,6 +23,15 @@ function get(object, path, default)
 	end
 
 	return value or default
+end
+
+function map(t, func)
+	local tbl = {}
+	for k, v in pairs(t) do
+		local result = func(v, k)
+		table.insert(tbl, result)
+	end
+	return tbl
 end
 
 function lerp(a, b, x) 
@@ -95,6 +104,7 @@ function table.print(t)
 	for k,v in pairs(functions) do print(v.key .. '()') end
 	for k,v in pairs(others)    do print(v.key .. ' : ' .. tostring(v.value)) end
 end
+
 
 function random_value(t) 
 	local _values = {} 
@@ -225,6 +235,60 @@ function circ_point_collision(...)
 
 	return math.sqrt( (p.x - c.x)^2 + (p.y - c.y)^2 ) <= c.r 
 end
+
+function point_poly_collision(p, poly)
+	local tx, ty = p.x, p.y
+	if (#pgon < 6) then
+		return false
+	end
+ 
+	local x1 = pgon[#pgon - 1]
+	local y1 = pgon[#pgon]
+	local cur_quad
+	local next_quad
+	local total = 0
+
+	if x1 < tx then
+		if y1 < ty then cur_quad = 1
+		else cur_quad = 4 end
+	else
+		if y1 < ty then cur_quad = 2
+		else cur_quad = 3 end	
+	end
+
+	for i = 1,#pgon,2 do
+		local x2 = pgon[i]
+		local y2 = pgon[i+1]
+
+		if x2 < tx then
+			if y2 < ty then next_quad = 1
+			else next_quad = 4 end
+		else
+			if y2 < ty then next_quad = 2
+			else next_quad = 3 end	
+		end
+
+		local diff = next_quad - cur_quad
+ 
+		if (diff == 2) or (diff == -2) then
+			if (x2 - (((y2 - ty) * (x1 - x2)) / (y1 - y2))) < tx then
+				diff = -diff
+			end
+		elseif diff == 3 then
+			diff = -1
+		elseif diff == -3 then
+			diff = 1
+		end
+ 
+		total = total + diff
+		cur_quad = next_quad
+		x1 = x2
+		y1 = y2
+	end
+ 
+	return (math.abs(total)==4)
+end
+ 
 
 function rect_rect_inside(r1, r2)
 	if #r1 == 4 then r1 = {x = r1[1], y = r1[2], w = r1[3], h = r1[4]} end

@@ -53,7 +53,7 @@ function Play:update(dt)
 	end
 
 	if pressed('space') then 
-		if rect_rect_collision(player:aabb(), pnj:aabb()) then 
+		if rect_rect_collision(player:aabb(), pnj:aabb()) then
 			@.msgbox:add(
 				{"Nun",   "I'm a nun."},
 				{"Player","Hello, nun."},

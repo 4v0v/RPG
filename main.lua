@@ -32,7 +32,7 @@ function love.run()
 		Timer   = require('libraries/timer')
 		Vec2    = require('libraries/vector')
 		Physics = require('libraries/physics')
-	
+		
 		require_all('classes')
 		require_all('rooms')
 		require_all('entities', {recursive = true})
