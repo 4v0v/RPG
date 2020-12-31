@@ -22,7 +22,6 @@ function Menu:update(dt)
 
 	if point_rect_collision({_x, _y}, text:aabb()) then
 		@:once(fn()
-			print('test')
 			text.scale_spring:pull(.25)
 		end, 'is_inside')
 	else 

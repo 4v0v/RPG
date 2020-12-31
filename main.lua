@@ -32,35 +32,28 @@ function love.run()
 		Timer   = require('libraries/timer')
 		Vec2    = require('libraries/vector')
 		Physics = require('libraries/physics')
-		
+
+
 		require_all('classes')
 		require_all('rooms')
 		require_all('entities', {recursive = true})
 
+		game = Game()
+		game:add_room('menu', Menu())
+		game:add_room('play', Play())
 
-		game = {}
-		game.current = ''
-		game.rooms   = {}
-		game.rooms['menu'] = Menu()
-		game.rooms['play'] = Play()
-
-		game.current = 'menu'
-		
+		game:change_room('menu')
 	end
 	
 	function update(dt)
-		if game.current ~= '' then 
-			game.rooms[game.current]:update(dt)
-		end
+		game.rooms[game.current]:update(dt)
 		if pressed('escape') then load() end
-		if pressed('1') then game.current = 'play' end
-		if pressed('2') then game.current = 'menu' end
+		if pressed('1') then game:change_room('menu') end
+		if pressed('2') then game:change_room('play') end
 	end
 	
 	function draw()
-		if game.current ~= '' then 
-			game.rooms[game.current]:draw()
-		end
+		game.rooms[game.current]:draw()
 	end
 
 	load()
