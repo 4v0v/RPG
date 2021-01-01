@@ -20,10 +20,14 @@ function Spring:pull(force)
     @.value = @.value + force
 end
 
-function Spring:get() 
-	return @.value
+function Spring:set(x) 
+	@.target = x
 end
 
-function Spring:set(x) 
+function Spring:set_immediate(x) 
 	@.target, @.value = x, x 
+end
+
+function Spring:get() 
+	return @.value
 end

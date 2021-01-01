@@ -194,8 +194,10 @@ function Timer:play(tag)
 	self.timers[tag].status = 'play' 
 end
 
-function Timer:remove(tag) 
-	self.timers[tag] = nil 
+function Timer:remove(tag)
+	local result = not not self.timers[tag]
+	self.timers[tag] = nil
+	return result
 end
 
 function Timer:destroy() 

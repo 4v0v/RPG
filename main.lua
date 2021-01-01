@@ -33,7 +33,6 @@ function love.run()
 		Vec2    = require('libraries/vector')
 		Physics = require('libraries/physics')
 
-
 		require_all('classes')
 		require_all('rooms')
 		require_all('entities', {recursive = true})
@@ -48,8 +47,6 @@ function love.run()
 	function update(dt)
 		game:update(dt)
 		if pressed('escape') then load() end
-		if pressed('1') then game:change_room('menu') end
-		if pressed('2') then game:change_room('play') end
 	end
 	
 	function draw()

@@ -23,8 +23,10 @@ function Play:new(id)
 end
 
 function Play:update(dt)
-	Play.super.update(@, dt)
+	Play.super.update(@, dt)	
 	@.msgbox:update(dt)
+
+	if pressed('1') then game:change('menu') end
 
 	if !@.msgbox:is_empty() then 
 		if pressed('space') then @.msgbox:next() end
