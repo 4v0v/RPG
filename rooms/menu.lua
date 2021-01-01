@@ -20,12 +20,11 @@ function Menu:update(dt)
 
 	if point_rect_collision({lm:getX(), lm:getY()}, text:aabb()) then
 		@:once(fn()
-			text.scale_spring:set(2)
-			text.scale_spring:pull(.25)
+			text.scale_spring:change(2)
 		end, 'is_inside')
 	else 
 		if @.timer:remove('is_inside') then 
-			text.scale_spring:set(1)
+			text.scale_spring:change(1)
 		end
 	end
 end

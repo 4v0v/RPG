@@ -11,20 +11,20 @@ end
 function Spring:update(dt)
 		local diff = @.value - @.target
 		local a    = -@.stiffness * diff - @.dampening * @.v
-		
-    @.v     = @.v + a * dt
-    @.value = @.value + @.v * dt
+
+    @.v     += a * dt
+    @.value += @.v * dt
 end
 
-function Spring:pull(force)
-    @.value = @.value + force
+function Spring:pull(amount)
+	@.value += amount
 end
 
-function Spring:set(x) 
+function Spring:change(x) 
 	@.target = x
 end
 
-function Spring:set_immediate(x) 
+function Spring:set(x) 
 	@.target, @.value = x, x 
 end
 
