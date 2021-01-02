@@ -35,6 +35,7 @@ function Play:new(id)
 	@:add('house', House(0, 0))
 
 	@:zoom(0.5)
+
 end
 
 function Play:update(dt)

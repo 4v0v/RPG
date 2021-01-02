@@ -20,7 +20,7 @@ function love.run()
 		end 
 	end
 
-	function load()
+	function love.load()
 		lg.setDefaultFilter('nearest', 'nearest')
 		lg.setLineStyle('rough')
 		lg.setBackgroundColor(.2, .2, .2, .2)
@@ -30,6 +30,7 @@ function love.run()
 		Timer   = require('libraries/timer')
 		Vec2    = require('libraries/vector')
 		Physics = require('libraries/physics')
+
 		require('libraries/utils')
 		require('libraries/monkey')
 
@@ -43,17 +44,17 @@ function love.run()
 
 		game:change('play')
 	end
-	
-	function update(dt)
+
+	function love.update(dt)
+		if pressed('escape') then love.load() end
 		game:update(dt)
-		if pressed('escape') then load() end
 	end
 	
-	function draw()
+	function love.draw()
 		game:draw()
 	end
 
-	load()
+	love.load()
 	love.timer.step()
 
 	return function()
@@ -69,14 +70,14 @@ function love.run()
 
 		_ACCUMULATOR = _ACCUMULATOR + love.timer.step()
 		while _ACCUMULATOR >= _FIXED_TIMESTEP do
-			update(_FIXED_TIMESTEP)
+			love.update(_FIXED_TIMESTEP)
 			for k,v in pairs(_INPUT._CUR) do _INPUT._PRE[k] = v end -- input update
 			_ACCUMULATOR = _ACCUMULATOR - _FIXED_TIMESTEP
 		end
 
 		lg.origin()
 		lg.clear(lg.getBackgroundColor())
-		draw()
+		love.draw()
 		lg.present()
 		love.timer.sleep(0.001)
 	end
