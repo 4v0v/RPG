@@ -36,9 +36,14 @@ end
 
 function Map:draw()
 	for i = 1, #@.map do 
-
-		for j = 1, @.map_width do 
-			lg.draw(@.image, @.tiles[@.map[i][j]],(j-1) * @.tileset.tile_w * 5, (i-1) * @.tileset.tile_h * 5, _, 5 )
+		for j = 1, @.map_width do
+			if @.map[i][j] != '' then
+				lg.draw(@.image, @.tiles[@.map[i][j]],
+					(j-1) * @.tileset.tile_w * 5, 
+					(i-1) * @.tileset.tile_h * 5, 
+					_, 5 
+				)
+			end
 		end
 	end
 end
