@@ -24,14 +24,14 @@ function love.run()
 		lg.setDefaultFilter('nearest', 'nearest')
 		lg.setLineStyle('rough')
 		lg.setBackgroundColor(.2, .2, .2, .2)
-
-		require('libraries/monkey')
-		require('libraries/utils')
+		
 		Class   = require('libraries/class')
 		Camera  = require('libraries/camera')
 		Timer   = require('libraries/timer')
 		Vec2    = require('libraries/vector')
 		Physics = require('libraries/physics')
+		require('libraries/utils')
+		require('libraries/monkey')
 
 		require_all('classes')
 		require_all('rooms')
@@ -41,7 +41,7 @@ function love.run()
 		game:add('menu', Menu())
 		game:add('play', Play())
 
-		game:change('menu')
+		game:change('play')
 	end
 	
 	function update(dt)

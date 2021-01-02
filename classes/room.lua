@@ -44,7 +44,7 @@ function Room:draw()
 	table.sort(entities, function(a, b) if a.z == b.z then return a.id < b.id else return a.z < b.z end end)
 
 	@.camera:draw(function()
-		@:draw_inside_cam()
+		@:draw_inside_camera()
 		for _, ent in pairs(entities) do 
 			if ent.draw && !ent.outside_camera then 
 				local _r,_g, _b, _a = love.graphics.getColor()
@@ -64,7 +64,7 @@ function Room:draw()
 	end
 end
 
-function Room:draw_inside_cam()
+function Room:draw_inside_camera()
 end
 
 function Room:draw_outside_camera()

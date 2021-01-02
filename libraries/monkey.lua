@@ -38,5 +38,5 @@ table.insert(package.loaders, 2, function(name)
 	local file        = love.filesystem.read(name)
 	local parsed_file = parse(file)
 
-	return assert(loadstring(parsed_file))
+	return assert(loadstring(parsed_file, name))
 end)

@@ -5,6 +5,21 @@ function Play:new(id)
 
 	@.msgbox = Msgbox()
 
+	local img = lg.newImage("assets/images/town_tileset.png")
+	local tileset = Tileset(img, 32, 32, 15 ,15)
+
+	@.town = Map(0, 0, tileset, 
+		{
+			{1, 16, 16, 16, 16, 16 ,16, 31},
+			{2, 17, 17, 17, 17, 17, 17, 32},
+			{2, 17, 17, 17, 17, 17, 17, 32},
+			{2, 17, 17, 17, 17, 17, 17, 32},
+			{2, 17, 17, 17, 17, 17, 17, 32},
+			{2, 17, 17, 17, 17, 17, 17, 32},
+			{3, 18, 18, 18, 18, 18 ,18, 33},
+		}
+	)
+
 	@:add('player', Player(0, 0))
 	@:add('pnj', Pnj(-100, 0))
 	@:add('door', Door(320, 511))
@@ -74,6 +89,11 @@ function Play:update(dt)
 	end
 
 	@:follow(player.pos.x, player.pos.y)
+end
+
+function Play:draw_inside_camera()
+	Play.super.draw_inside_camera()
+	@.town:draw()
 end
 
 function Play:draw_outside_camera()
