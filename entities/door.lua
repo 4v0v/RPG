@@ -1,20 +1,27 @@
 Door = Entity:extend('Door')
 Door.spritesheet  = lg.newImage('assets/images/door.png')
+Door.opening_sound = la.newSource("assets/sounds/door_open.wav", "static")
+Door.closing_sound = la.newSource("assets/sounds/door_close.wav", "static")
 Door.closed       = lg.newQuad(0, 0, 32, 64, Door.spritesheet)
 Door.opened       = lg.newQuad(160, 0, 32, 64, Door.spritesheet)
 Door.frames_open  = AnimationFrames(Door.spritesheet, 32, 64, _, _, {{1, 1}, {2, 1}, {3, 1}, {4, 1}, {5, 1}, {6, 1}})
 Door.frames_close = AnimationFrames(Door.spritesheet, 32, 64, _, _, {{6, 1}, {5, 1}, {4, 1}, {3, 1}, {2, 1}, {1, 1}})
-Door.anim_opening = Animation(.1, Door.frames_open, 'once' )
-Door.anim_closing = Animation(.1, Door.frames_close, 'once')
+Door.anim_opening = Animation(.2, Door.frames_open, 'once' )
+Door.anim_closing = Animation(.2, Door.frames_close, 'once')
 
 function Door:new(x, y)
 	Door.super.new(@, { x = x, y = y})
 	@.state    = 'closed'
 	@.opening  = Door.anim_opening:clone()
 	@.closing  = Door.anim_closing:clone()
-
-	@.opening:set_actions({[6] = fn() @.opening:set_frame(1) @.state = 'opened' end})
-	@.closing:set_actions({[6] = fn() @.closing:set_frame(1) @.state = 'closed' end})
+	@.opening:set_actions({
+		[2] = fn() Door.opening_sound:play() end,
+		[6] = fn() @.opening:reset() @.state = 'opened' end
+	})
+	@.closing:set_actions({
+		[2] = fn() Door.closing_sound:play() end,
+		[6] = fn() @.closing:reset() @.state = 'closed' end
+	})
 end
 
 function Door:update(dt)

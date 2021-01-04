@@ -1,15 +1,15 @@
 AnimationFrames = Class:extend('AnimationFrames')
 
-function AnimationFrames:new(image, frame_w, frame_h, offset_x, offset_y, frames_list)
+function AnimationFrames:new(image, frame_w, frame_h, ox, oy, frames_list)
   @.image    = image
 	@.frame_w  = frame_w
 	@.frame_h  = frame_h
-	@.offset_x = offset_x or 0
-	@.offset_y = offset_y or 0
+	@.ox       = ox or 0
+	@.oy       = oy or 0
 	@.frames   = map(frames_list, fn(frame)
 		return love.graphics.newQuad(
-			(frame[1]-1) * @.frame_w + @.offset_x, 
-			(frame[2]-1) * @.frame_h + @.offset_y, 
+			(frame[1]-1) * @.frame_w + @.ox, 
+			(frame[2]-1) * @.frame_h + @.oy, 
 			@.frame_w, @.frame_h, 
 			@.image:getWidth(), @.image:getHeight()
 		)
@@ -46,7 +46,7 @@ function AnimationLogic:update(dt)
   local delay = @.delay
   if type(@.delay) == 'table' then delay = @.delay[@.frame] end
 
-  if @.timer > delay then
+	if @.timer > delay then
     @.frame = @.frame + @.direction
 		if @.frame > @.frames or @.frame < 1 then
       if @.mode == 'once' then
@@ -59,8 +59,8 @@ function AnimationLogic:update(dt)
         @.frame = @.frame + 2 * @.direction
 			end
 		end
-		local action = get(@, {'actions', @.frame})
-		if action then @.actions[@.frame]() end
+
+		if get(@, {'actions', @.frame}) then @.actions[@.frame]() end
 		
 		@.timer = @.timer - delay
   end
@@ -87,12 +87,14 @@ end
 
 function Animation:reset()
 	@.anim_logic.frame = 1
-	@.timer = 0
+	@.anim_logic.timer = 0
+	@.anim_logic.direction = 1
+	@.anim_logic.pause = false
 end
 
 function Animation:set_frame(frame)
 	@.anim_logic.frame = frame
-	@.timer = 0
+	@.anim_logic.timer = 0
 end
 
 function Animation:set_actions(actions)
