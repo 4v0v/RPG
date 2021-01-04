@@ -39,8 +39,9 @@ function love.run()
 		require_all('entities', {recursive = true})
 
 		game = Game()
-		game:add('menu', Menu())
-		game:add('play', Play())
+		game:add('menu', Menu_room())
+		game:add('play', Play_room())
+		game:add('house', House_room())
 
 		game:change('play')
 	end

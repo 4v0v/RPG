@@ -1,7 +1,7 @@
-Play = Room:extend('Play')
+Play_room = Room:extend('Play_room')
 
-function Play:new(id)
-	Play.super.new(@, id)
+function Play_room:new(id)
+	Play_room.super.new(@, id)
 
 	@.msgbox = Msgbox()
 
@@ -21,9 +21,11 @@ function Play:new(id)
 
 	@:add('player', Player(0, 0))
 	@:add('pnj', Pnj(-100, 0))
-	@:add('door', Door(320, 511))
+	local door = @:add('door', Door(320, 511))
+	door:on_open(fn() game:change('house') end)
 	@:add('signpost', Signpost(-350, 500))
 	@:add('house', House(0, 0))
+
 
 	for 5 do 
 		@:after({.1, .2}, fn() 
@@ -31,11 +33,12 @@ function Play:new(id)
 		end)
 	end
 
+
 	@:zoom(0.5)
 end
 
-function Play:update(dt)
-	Play.super.update(@, dt)	
+function Play_room:update(dt)
+	Play_room.super.update(@, dt)	
 	@.msgbox:update(dt)
 
 	if pressed('1') then game:change('menu') end
@@ -88,11 +91,11 @@ function Play:update(dt)
 	@:follow(player.pos.x, player.pos.y)
 end
 
-function Play:draw_inside_camera()
+function Play_room:draw_inside_camera()
 	@.town:draw()
 end
 
-function Play:draw_outside_camera()
-	Play.super.draw_outside_camera()
+function Play_room:draw_outside_camera()
+	Play_room.super.draw_outside_camera()
 	@.msgbox:draw()
 end

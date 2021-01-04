@@ -12,11 +12,12 @@ Door.anim_closing = Animation(.2, Door.frames_close, 'once')
 function Door:new(x, y)
 	Door.super.new(@, { x = x, y = y})
 	@.state    = 'closed'
+	@.on_open_func  = fn() end
 	@.opening  = Door.anim_opening:clone()
 	@.closing  = Door.anim_closing:clone()
 	@.opening:set_actions({
 		[2] = fn() Door.opening_sound:play() end,
-		[6] = fn() @.opening:reset() @.state = 'opened' end
+		[6] = fn() @.opening:reset() @.state = 'opened' @.on_open_func() end
 	})
 	@.closing:set_actions({
 		[2] = fn() Door.closing_sound:play() end,
@@ -33,8 +34,10 @@ function Door:update(dt)
 	elseif @.state == 'opening' then 
 		@.opening:update(dt)
 
-	elseif @.state == 'opened' then 
-	elseif @.state == 'closed' then end
+	elseif @.state == 'opened' then
+
+	elseif @.state == 'closed' then 
+	end
 
 	@.z = @.pos.x
 end
@@ -54,7 +57,10 @@ function Door:draw()
 		local _x, _y, _w, _h = Door.closed:getViewport()
 		lg.draw(Door.spritesheet, Door.closed, @.pos.x, @.pos.y, _, 3, _, _w/2, _h/2)
 	end
+end
 
+function Door:on_open(func)
+	@.on_open_func = func
 end
 
 function Door:aabb()

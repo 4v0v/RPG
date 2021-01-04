@@ -1,7 +1,7 @@
-Menu = Room:extend('Menu')
+Menu_room = Room:extend('Menu_room')
 
-function Menu:new(id)
-	Menu.super.new(@, id)
+function Menu_room:new(id)
+	Menu_room.super.new(@, id)
 	
 	@:add('txt', Text(lg.getWidth()/2, lg.getHeight()/2, "Spring\x21", 
 		{
@@ -12,8 +12,8 @@ function Menu:new(id)
 	)
 end
 
-function Menu:update(dt)
-	Menu.super.update(@, dt)
+function Menu_room:update(dt)
+	Menu_room.super.update(@, dt)
 	if pressed('1') then game:change('play') end
 
 	local text = @:get('txt')
