@@ -16,11 +16,11 @@ function Door:new(x, y)
 	@.opening  = Door.anim_opening:clone()
 	@.closing  = Door.anim_closing:clone()
 	@.opening:set_actions({
-		[2] = fn() Door.opening_sound:play() end,
+		[1] = fn() Door.opening_sound:play() end,
 		[6] = fn() @.opening:reset() @.state = 'opened' @.on_open_func() end
 	})
 	@.closing:set_actions({
-		[2] = fn() Door.closing_sound:play() end,
+		[1] = fn() Door.closing_sound:play() end,
 		[6] = fn() @.closing:reset() @.state = 'closed' end
 	})
 end

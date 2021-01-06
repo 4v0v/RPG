@@ -34,6 +34,18 @@ function map(t, func)
 	return tbl
 end
 
+function foreach(iterable, func)
+	if type(iterable) == 'nil' then
+		return
+	elseif type(iterable) == 'number' then 
+		for i = 1, iterable do func(i) end
+	elseif type(iterable) == 'table' and not iterable[1] then
+		for k, v in pairs(iterable) do func(v, k) end
+	elseif type(iterable) == 'table' and iterable[1] then
+		for k, v in ipairs(iterable) do func(v, k) end
+	end
+end
+
 function lerp(a, b, x) 
 	return a + (b - a) * x 
 end

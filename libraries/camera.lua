@@ -37,9 +37,7 @@ function Camera:draw(func)
 end
 
 function Camera:follow(x, y)
-	local _x, _y
-	if type(x) == 'table' then _x, _y = x.x, x.y else _x, _y = x, y end
-
+	local _x, _y = x, y
 	self.cam.target_x = _x or self.cam.target_x
 	self.cam.target_y = _y or self.cam.target_y
 end
@@ -56,7 +54,7 @@ function Camera:get_position()
 	return self.cam.x, self.cam.y, self.cam.target_x, self.cam.target_y 
 end
 
-function Camera:get_scale() 
+function Camera:get_zoom() 
 	return self.cam.s, self.cam.target_s 
 end
 
@@ -64,11 +62,11 @@ function Camera:set_smoothness(sv)
 	self.cam.sv = sv 
 end
 
-function Camera:set_scale_smoothness(sv) 
+function Camera:set_zoom_smoothness(sv) 
 	self.cam.ssv = ssv 
 end
 
-function Camera:set_scale(s) 
+function Camera:set_zoom(s) 
 	self.cam.s, self.cam.target_s = s, s 
 end
 

@@ -1,7 +1,7 @@
-Msgbox = Class:extend('Msgbox')
+Msgbox = Entity:extend('Msgbox')
 
 function Msgbox:new()
-	@.timer         = Timer()
+	House.super.new(@, {x = 0, y = 0, z = 100, outside_camera = true})
 	@.font          = lg.newFont('assets/fonts/fixedsystem.ttf', 32)
 	@.default_font  = lg.newFont()
 	@.typing_sound  = la.newSource("assets/sounds/typewriter.wav", "static")
@@ -36,7 +36,7 @@ function Msgbox:new()
 end
 
 function Msgbox:update(dt)
-	@.timer:update(dt)
+	Msgbox.super.update(@, dt)
 end
 
 function Msgbox:draw()

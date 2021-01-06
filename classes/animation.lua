@@ -44,9 +44,10 @@ function AnimationLogic:update(dt)
 
   @.timer = @.timer + dt
   local delay = @.delay
-  if type(@.delay) == 'table' then delay = @.delay[@.frame] end
-
+	if type(@.delay) == 'table' then delay = @.delay[@.frame] end
+	
 	if @.timer > delay then
+		local action = get(@, {'actions', @.frame})
     @.frame = @.frame + @.direction
 		if @.frame > @.frames or @.frame < 1 then
       if @.mode == 'once' then
@@ -59,8 +60,7 @@ function AnimationLogic:update(dt)
         @.frame = @.frame + 2 * @.direction
 			end
 		end
-
-		if get(@, {'actions', @.frame}) then @.actions[@.frame]() end
+		if action then action() end
 		
 		@.timer = @.timer - delay
   end
