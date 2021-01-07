@@ -5,7 +5,6 @@ function Play_room:new(id)
 
 	local town_tileset = Tileset(lg.newImage("assets/images/tileset_town.png"), 32, 32, _, _, 15 ,15)
 
-
 	@:add('map', Map(town_tileset, -100, -100, 5,
 		{
 			{ 01, 02, 02, 02, 02, 02, 02, 02, 02, 02, 02, 03, },
@@ -18,9 +17,12 @@ function Play_room:new(id)
 		}
 	))
 
-
 	local door = Door(320, 511)
-	door:on_open(fn() game:change('house') end)
+	door:on_open(fn() 
+		@:tween(0.3, @.camera.bg_color, { a = 1}, 'linear', 'fade_transition', fn() 
+			game:change('house') 
+		end)
+	end)
 
 	@:add('door', door)
 	@:add('player', Player(0, 0))

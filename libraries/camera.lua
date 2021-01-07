@@ -5,6 +5,7 @@ local function _rand(x) return love.math.noise(love.math.random()) - 0.5 end
 
 function Camera:new(x, y, w, h, s)
 	local obj = {}
+		obj.bg_color = { r = 0, g = 0 , b = 0, a = 0}
 		obj.x = x or 0
 		obj.y = y or 0
 		obj.w = w or love.graphics.getWidth()
@@ -34,6 +35,10 @@ function Camera:draw(func)
 	love.graphics.translate(-self.cam.x + self.shk.xrs, -self.cam.y + self.shk.yrs)
 	func()
 	love.graphics.pop()
+	local _r, _g, _b, _a = lg.getColor()
+	lg.setColor(self.bg_color.r, self.bg_color.g, self.bg_color.b, self.bg_color.a)
+	lg.rectangle('fill', 0, 0, lg.getWidth(), lg.getHeight())
+	lg.setColor(_r, _g, _b, _a)
 end
 
 function Camera:follow(x, y)
@@ -68,6 +73,10 @@ end
 
 function Camera:set_zoom(s) 
 	self.cam.s, self.cam.target_s = s, s 
+end
+
+function Camera:set_bg_color(r, g, b, a)
+	self.bg_color = {r = r, g = g, b = b, a = a}
 end
 
 function Camera:set_position(x, y) 

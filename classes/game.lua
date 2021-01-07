@@ -19,6 +19,9 @@ function Game:add(name, room)
 	@.rooms[name] = room
 end
 
-function Game:change(name)
+function Game:change(name, ...)
+	local previous = @.current
+	if @.current != '' then @.rooms[@.current]:exit() end
 	@.current = name
+	@.rooms[@.current]:enter(previous, ...)
 end

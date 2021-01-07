@@ -68,3 +68,9 @@ function House_room:update(dt)
 
 	@:follow(player.pos.x, player.pos.y)
 end
+
+function House_room:enter(previous, ...)
+	@.camera:set_bg_color(0, 0, 0, 1)
+
+	@:tween(0.3, @.camera.bg_color, {a = 0}, 'linear')
+end

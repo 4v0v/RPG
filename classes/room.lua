@@ -150,7 +150,7 @@ end
 function Room:enter() 
 end
 
-function Room:leave() 
+function Room:exit() 
 end
 
 function Room:after(...)
