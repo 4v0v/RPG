@@ -1,9 +1,9 @@
 Spring = Class:extend('Spring')
 
 function Spring:new(value, stiffness, dampening)
-    @.target = value
-    @.value  = value
-    @.v      = 0
+    @.target    = value
+    @.value     = value
+    @.v         = 0
     @.stiffness = stiffness or 100
     @.dampening = dampening or 10
 end
@@ -11,8 +11,7 @@ end
 function Spring:update(dt)
 		local diff = @.value - @.target
 		local a    = -@.stiffness * diff - @.dampening * @.v
-
-    @.v     += a * dt
+    @.v     += a   * dt
     @.value += @.v * dt
 end
 

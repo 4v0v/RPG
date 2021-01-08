@@ -46,7 +46,7 @@ function House_room:update(dt)
 		return
 	end
 
-	if pressed('1') then game:change('menu') end
+	if pressed('1') then game:change_room('menu') end
 
 	local player = @:get('player')
 
@@ -67,10 +67,4 @@ function House_room:update(dt)
 	end
 
 	@:follow(player.pos.x, player.pos.y)
-end
-
-function House_room:enter(previous, ...)
-	@.camera:set_bg_color(0, 0, 0, 1)
-
-	@:tween(0.3, @.camera.bg_color, {a = 0}, 'linear')
 end

@@ -1,5 +1,5 @@
 local World, Collider, Shape, Joint, lg, lp = {}, {}, {}, {}, love.graphics, love.physics
-local _uid = function() local fn = function() local r = math.random(16) return ("0123456789ABCDEF"):sub(r, r) end return ("xxxxxxxxxxxxxxxx"):gsub("[x]", fn) end
+local _uid = function() local func = function() local r = math.random(16) return ("0123456789ABCDEF"):sub(r, r) end return ("xxxxxxxxxxxxxxxx"):gsub("[x]", func) end
 local _set_funcs = function(a, ...) 
 	local args = {...}
 	local _f = {__gc=0,__eq=0,__index=0,__tostring=0,isDestroyed=0,testPoint=0,getType=0,rayCast=0,destroy=0,setUserData=0,getUserData=0,release=0,type=0,typeOf=0}
@@ -46,10 +46,10 @@ function World:new(xg, yg, sleep)
 			end
 		end
 	end
-	local function _enter(fix1, fix2, contact)      _callback("_enter", fix1, fix2, contact)      end
-	local function _exit(fix1, fix2, contact)       _callback("_exit" , fix1, fix2, contact)      end
-	local function _pre(fix1, fix2, contact)        _callback("_pre"  , fix1, fix2, contact)      end
-	local function _post(fix1, fix2, contact, ...)  _callback("_post" , fix1, fix2, contact, ...) end -- ... => normal_impulse1, tangent_impulse1, normal_impulse2, tangent_impulse2
+	local function _enter(fix1, fix2, contact)     _callback("_enter", fix1, fix2, contact)      end
+	local function _exit(fix1, fix2, contact)      _callback("_exit" , fix1, fix2, contact)      end
+	local function _pre(fix1, fix2, contact)       _callback("_pre"  , fix1, fix2, contact)      end
+	local function _post(fix1, fix2, contact, ...) _callback("_post" , fix1, fix2, contact, ...) end -- ... => normal_impulse1, tangent_impulse1, normal_impulse2, tangent_impulse2
 
 	local _world = {
 		_b2d          = lp.newWorld(xg, yg, sleep),
@@ -132,12 +132,35 @@ function World:get_colliders()
 	return _colliders 
 end
 
-function World:set_query_color(r,g,b,a) self._query_color = {r, g, b, a} return self end
-function World:set_joint_color(r,g,b,a) self._joint_color = {r, g, b, a} return self end
-function World:set_enter(fn)     self._enter = fn return self end
-function World:set_exit(fn)      self._exit  = fn return self end
-function World:set_presolve(fn)  self._pre   = fn return self end
-function World:set_postsolve(fn) self._post  = fn return self end
+function World:set_query_color(r,g,b,a)
+	self._query_color = {r, g, b, a}
+	return self
+end
+
+function World:set_joint_color(r,g,b,a)
+	self._joint_color = {r, g, b, a}
+	return self
+end
+
+function World:set_enter(func)
+	self._enter = func
+	return self
+end
+
+function World:set_exit(func)
+	self._exit = func 
+	return self
+end
+
+function World:set_presolve(func)
+	self._pre   = func 
+	return self 
+end
+
+function World:set_postsolve(func)
+	self._post  = func 
+	return self
+end
 
 function World:add_class(tag, ignore)
 	local function sa(t1, t2) for k in pairs(t1) do if not t2[k] then return false end end for k in pairs(t2) do if not t1[k] then return false end end return true end
@@ -369,7 +392,7 @@ end
 
 function World:destroy()
 	for k,v in pairs(self._colliders) do v:destroy() end
-	for k,v in pairs(self._joints) do v:destroy() end
+	for k,v in pairs(self._joints)    do v:destroy() end
 	self.box2d:destroy()
 	for k,v in pairs(self) do v = nil end
 end
@@ -418,16 +441,51 @@ function Collider:set_class(class)
 	return self
 end
 
-function Collider:set_enter(fn) self._enter = fn return self end
-function Collider:set_exit(fn) self._exit = fn return self end
-function Collider:set_presolve(fn) self._pre = fn return self end
-function Collider:set_postsolve(fn) self._post = fn return self end
-function Collider:set_data(data) self._data  = data return self end
-function Collider:set_tag(tag) self._tag = tag return self end
-function Collider:get_class() return self._class end
-function Collider:get_tag() return self._tag end
-function Collider:get_data(data) return self._data end
-function Collider:get_shape(tag) return self._shapes[tag] end
+function Collider:set_enter(func) 
+	self._enter = func 
+	return self 
+end
+
+function Collider:set_exit(func) 
+	self._exit = func 
+	return self 
+end
+
+function Collider:set_presolve(func) 
+	self._pre = func 
+	return self 
+end
+
+function Collider:set_postsolve(func) 
+	self._post = func 
+	return self 
+end
+
+function Collider:set_data(data) 
+	self._data = data 
+	return self 
+end
+
+function Collider:set_tag(tag)
+	self._tag = tag
+	return self
+end
+
+function Collider:get_class()
+	return self._class
+end
+
+function Collider:get_tag()
+	return self._tag
+end
+
+function Collider:get_data(data)
+	return self._data
+end
+
+function Collider:get_shape(tag)
+	return self._shapes[tag]
+end
 
 function Collider:add_shape(tag, shape_type, ...)
 	assert(not self._shapes[tag], "Collider already have a shape called '" .. tag .."'.")
@@ -543,17 +601,59 @@ function Collider:destroy()
 	self._body = nil
 end
 
-function Shape:set_enter(fn) self._enter = fn return self end
-function Shape:set_exit(fn) self._exit  = fn return self end
-function Shape:set_presolve(fn) self._pre   = fn return self end
-function Shape:set_postsolve(fn) self._post  = fn return self end
-function Shape:set_alpha(a) self._color.a = a return self end
-function Shape:set_color(r, g, b, a) self._color = {r = r, g = g, b = b, a = a or self._color.a} return self end
-function Shape:set_mode(mode) self._mode = mode return self end
-function Shape:get_collider() return self._collider end
-function Shape:get_class() return self._collider._class end
-function Shape:get_collider_tag() return self._collider._tag end
-function Shape:get_tag() return self._tag end
-function Shape:destroy() self._collider:remove_shape(self._tag) end
+function Shape:set_enter(func)
+	self._enter = func
+	return self
+end
+
+function Shape:set_exit(func)
+	self._exit = func
+	return self
+end
+
+function Shape:set_presolve(func)
+	self._pre = func
+	return self
+end
+
+function Shape:set_postsolve(func)
+	self._post = func 
+	return self
+end
+
+function Shape:set_alpha(a)
+	self._color.a = a
+	return self
+end
+
+function Shape:set_color(r, g, b, a) 
+	self._color = {r = r, g = g, b = b, a = a or self._color.a}
+	return self
+end
+
+function Shape:set_mode(mode)
+	self._mode = mode
+	return self
+end
+
+function Shape:get_collider()
+	return self._collider
+end
+
+function Shape:get_class()
+	return self._collider._class
+end
+
+function Shape:get_collider_tag()
+	return self._collider._tag
+end
+
+function Shape:get_tag()
+	return self._tag
+end
+
+function Shape:destroy()
+	self._collider:remove_shape(self._tag)
+end
 
 return setmetatable({}, {__call = World.new})

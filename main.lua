@@ -39,11 +39,11 @@ function love.run()
 		require_all('entities', {recursive = true})
 
 		game = Game()
-		game:add('menu', Menu_room())
-		game:add('play', Play_room())
-		game:add('house', House_room())
+		game:add_room('menu', Menu_room())
+		game:add_room('play', Play_room())
+		game:add_room('house', House_room())
 
-		game:change('play')
+		game:change_room('play')
 	end
 
 	function love.update(dt)

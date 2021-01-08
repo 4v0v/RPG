@@ -18,11 +18,7 @@ function Play_room:new(id)
 	))
 
 	local door = Door(320, 511)
-	door:on_open(fn() 
-		@:tween(0.3, @.camera.bg_color, { a = 1}, 'linear', 'fade_transition', fn() 
-			game:change('house') 
-		end)
-	end)
+	door:on_open(fn() game:change_room_with_transition('house') end)
 
 	@:add('door', door)
 	@:add('player', Player(0, 0))
@@ -55,7 +51,7 @@ function Play_room:update(dt)
 	local pnj      = @:get('pnj')
 	local signpost = @:get('signpost')
 
-	if pressed('1') then game:change('menu') end
+	if pressed('1') then game:change_room('menu') end
 
 	if down('lctrl') then
 		if     down('z') then player:set_state('run_up')

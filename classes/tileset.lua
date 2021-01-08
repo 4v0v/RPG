@@ -8,16 +8,15 @@ function Tileset:new(image, tile_w, tile_h, ox, oy, x_number, y_number)
 	@.oy       = oy or 0
 	@.tiles    = (fn()
 		local tiles = {}
-		for i = 1,  x_number do
-			for j = 1, y_number do 
-				table.insert(tiles, love.graphics.newQuad(
-					(j-1) * @.tile_w, 
-					(i-1) * @.tile_h, 
-					@.tile_w, @.tile_h, 
+		foreach(x_number, fn(i)
+			foreach(y_number, fn(j)
+				table.insert(tiles, lg.newQuad(
+					(j-1) * @.tile_w, (i-1) * @.tile_h,
+					@.tile_w, @.tile_h,
 					@.image:getWidth(), @.image:getHeight()
 				))
-			end
-		end
+			end)
+		end)
 		return tiles
 	end)()
 end

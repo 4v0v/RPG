@@ -41,15 +41,16 @@ end
 
 function AnimationLogic:update(dt)
   if @.pause then return end
-
-  @.timer = @.timer + dt
+	@.timer += dt
+	
   local delay = @.delay
 	if type(@.delay) == 'table' then delay = @.delay[@.frame] end
 	
 	if @.timer > delay then
 		local action = get(@, {'actions', @.frame})
-    @.frame = @.frame + @.direction
-		if @.frame > @.frames or @.frame < 1 then
+
+    @.frame += @.direction
+		if @.frame > @.frames || @.frame < 1 then
       if @.mode == 'once' then
         @.frame = @.frames
 				@.pause = true
@@ -57,12 +58,12 @@ function AnimationLogic:update(dt)
 				@.frame = 1
       elseif @.mode == 'bounce' then
         @.direction = -@.direction
-        @.frame = @.frame + 2 * @.direction
+        @.frame += 2 * @.direction
 			end
 		end
 		if action then action() end
 		
-		@.timer = @.timer - delay
+		@.timer -= delay
   end
 end
 

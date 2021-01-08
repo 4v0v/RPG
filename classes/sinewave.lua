@@ -11,11 +11,10 @@ function Sinewave:new(value, speed, amplitude)
 end
 
 function Sinewave:update(dt)
-	if @.is_updating then 
-		@.time = @.time + dt
-		@.sine = (@.amplitude * math.sin(@.time * @.speed))
-		@.val  = @.v + @.sine
-	end
+	if !@.is_updating then return end
+	@.time += dt
+	@.sine = (@.amplitude * math.sin(@.time * @.speed))
+	@.val  = @.v + @.sine
 end
 
 function Sinewave:value() 

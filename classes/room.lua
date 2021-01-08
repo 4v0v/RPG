@@ -1,5 +1,6 @@
 Room = Class:extend('Room')
 
+
 function Room:new(id)
 	@.id     = id or uid()
 	@.timer  = Timer()
@@ -13,24 +14,18 @@ function Room:update(dt)
 	@.camera:update(dt)
 
 	-- update entitites
-	for _, ent in pairs(@._ents['All']) do 
-		ent:update(dt)
-	end
+	for @._ents['All'] do it:update(dt) end
 	-- delete dead entities
-	for _, ent in pairs(@._ents['All']) do 
-		if ent.dead then
-			@._ents['All'][ent.id] = nil
-			for _, type in pairs(ent.types) do 
-				@._ents[type][ent.id] = nil
-			end
+	for @._ents['All'] do 
+		if it.dead then
+			@._ents['All'][it.id] = nil
+			for type in it.types do @._ents[type][it.id] = nil end
 		end
 	end
 	-- push entities from queue
-	for _, queued_ent in pairs(@._queue) do
-		for _, type in ipairs(queued_ent.types) do 
-			if not @._ents[type] then 
-				@._ents[type] = {}
-			end
+	for queued_ent in @._queue do
+		ifor type in queued_ent.types do 
+			@._ents[type] = get(@, {'_ents', type}, {})
 			@._ents[type][queued_ent.id] = queued_ent
 		end
 		@._ents['All'][queued_ent.id] = queued_ent
@@ -40,25 +35,25 @@ end
 
 function Room:draw()
 	local entities = {}
-	for _, ent in pairs(@._ents['All']) do table.insert(entities, ent) end
-	table.sort(entities, function(a, b) if a.z == b.z then return a.id < b.id else return a.z < b.z end end)
+	for @._ents['All'] do table.insert(entities, it) end
+	table.sort(entities, fn(a, b) if a.z == b.z then return a.id < b.id else return a.z < b.z end end)
 
 	@.camera:draw(function()
 		@:draw_inside_camera()
-		for _, ent in pairs(entities) do 
-			if ent.draw && !ent.outside_camera then 
+		for entities do 
+			if it.draw && !it.outside_camera then 
 				local _r,_g, _b, _a = love.graphics.getColor()
-				ent:draw()
+				it:draw()
 				love.graphics.setColor(_r, _g, _b, _a)
 			end
 		end
 	end)
 
 	@:draw_outside_camera()
-	for _, ent in pairs(entities) do 
-		if ent.draw && ent.outside_camera then
+	for entities do 
+		if it.draw && it.outside_camera then
 			local _r,_g, _b, _a = love.graphics.getColor()
-			ent:draw()
+			it:draw()
 			love.graphics.setColor(_r, _g, _b, _a)
 		end
 	end
@@ -86,13 +81,11 @@ function Room:add(a, b, c)
 	end
 
 	table.insert(types, entity:class())
-	for _, type in pairs(entity.types) do 
-		table.insert(types, type)
-	end
+	for entity.types do table.insert(types, it) end
 
-	entity.types    = types  
-	entity.id       = id
-	entity.room     = @
+	entity.types = types  
+	entity.id    = id
+	entity.room  = @
 	@._queue[id] = entity
 	return entity 
 end
@@ -104,26 +97,24 @@ end
 
 function Room:get(id) 
 	local entity = @._ents['All'][id]
-	if not entity or entity.dead then return nil end
+	if !entity or entity.dead then return nil end
 	return entity
 end
 
 function Room:get_by_type(...)
 	local entities = {}
 	local types    = {...}
-	local filter   = {} -- filter duplicate entities using id
+	local filtered = {} -- filter duplicate entities using id
 
-	for _, type in pairs(types) do
+	for type in types do
 		if @._ents[type] then
-			for _, ent in pairs(@._ents[type]) do
-				if not ent.dead then filter[ent.id] = ent end
+			for @._ents[type] do
+				if !it.dead then filtered[it.id] = ent end
 			end
 		end
 	end
 
-	for _, ent in pairs(filter) do 
-		table.insert(entities, ent)
-	end
+	for filtered do table.insert(entities, it) end
 
 	return entities
 end
@@ -131,18 +122,17 @@ end
 function Room:count(...)
 	local entities = {}
 	local types    = {...}
-	local filter   = {} -- filter duplicate entities using id
+	local filtered = {} -- filter duplicate entities using id
 
-	for _, type in pairs(types) do
+	for type in types do
 		if @._ents[type] then
-			for _, ent in pairs(@._ents[type]) do
-				if not ent.dead then filter[ent.id] = ent end
+			for @._ents[type] do
+				if !it.dead then filtered[it.id] = ent end
 			end
 		end
 	end
-	for _, ent in pairs(filter) do 
-		table.insert(entities, ent)
-	end
+
+	for filtered do table.insert(entities, it) end
 
 	return #entities
 end

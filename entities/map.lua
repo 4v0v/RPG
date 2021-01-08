@@ -10,17 +10,15 @@ function Map:new(tileset, x, y, scale, map)
 	@.tile_h = tileset.tile_h 
 	@.tiles  = tileset.tiles
 	@.image  = tileset.image
-
-	@.layers = {}
-	table.insert(@.layers, map)
+	@.layers = {[1] = map}
 end
 
 function Map:draw()
-	for _, layer in ipairs(@.layers) do 
+	ifor layer in @.layers do 
 		for i = 1, @.map_h do 
 			for j = 1, @.map_w do
 				if layer[i][j] != '' then
-					lg.draw(@.image, 
+					lg.draw(@.image,
 						@.tiles[layer[i][j]],
 						@.pos.x + (j-1) * @.tile_w * @.scale, 
 						@.pos.y + (i-1) * @.tile_h * @.scale, 

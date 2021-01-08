@@ -37,23 +37,23 @@ function Pnj:update(dt)
 
 	if @.state == 'move_left' then 
 		@.anim_move_left:update(dt)
-		@.pos.x = @.pos.x - @.speed * dt
-		@.dir = Vec2(-1, 0)
+		@.pos.x -= @.speed * dt
+		@.dir    = Vec2(-1, 0)
 
 	elseif @.state == 'move_right' then
 		@.anim_move_right:update(dt)
-		@.pos.x = @.pos.x + @.speed * dt 
-		@.dir = Vec2(1, 0)
+		@.pos.x += @.speed * dt 
+		@.dir    = Vec2(1, 0)
 
 	elseif @.state == 'move_up'    then
 		@.anim_move_up:update(dt)
-		@.pos.y = @.pos.y - @.speed * dt
-		@.dir = Vec2(0, -1)
+		@.pos.y -= @.speed * dt
+		@.dir    = Vec2(0, -1)
 
 	elseif @.state == 'move_down'  then
 		@.anim_move_down:update(dt)
-		@.pos.y = @.pos.y + @.speed * dt
-		@.dir = Vec2(0, 1)
+		@.pos.y += @.speed * dt
+		@.dir    = Vec2(0, 1)
 
 	elseif @.state == 'idle_left'  then
 		@.anim_idle_left:update(dt)

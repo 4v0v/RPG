@@ -14,7 +14,7 @@ end
 
 function Menu_room:update(dt)
 	Menu_room.super.update(@, dt)
-	if pressed('1') then game:change('play') end
+	if pressed('1') then game:change_room('play') end
 
 	local text = @:get('txt')
 

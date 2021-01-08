@@ -22,9 +22,9 @@ end
 function Entity:is_type(...) 
 	local types = {...}
 
-	for _, type in ipairs(types) do
-		for _, t in ipairs(@.types) do 
-			if type == t then return true end
+	ifor type in types do
+		ifor entity_type in @.types do 
+			if type == entity_type then return true end
 		end
 	end
 
