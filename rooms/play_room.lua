@@ -23,7 +23,6 @@ function Play_room:new(id)
 	@:add('door', door)
 	@:add('player', Player(0, 0))
 	@:add('msgbox', Msgbox())
-	@:add('pnj', Pnj(-100, 0))
 	@:add('signpost', Signpost(-350, 500))
 	@:add('house', House(0, 0))
 
@@ -48,7 +47,6 @@ function Play_room:update(dt)
 	
 	local player   = @:get('player')
 	local door     = @:get('door')
-	local pnj      = @:get('pnj')
 	local signpost = @:get('signpost')
 
 	if pressed('1') then game:change_room('menu') end
@@ -69,15 +67,8 @@ function Play_room:update(dt)
 		player:stop_moving()
 	end
 
-	if pressed('space') then 
-		if rect_rect_collision(player:aabb(), pnj:aabb()) then
-			msgbox:add(
-				{"Nun",   "I'm a nun."},
-				{"Player","Hello, nun."},
-				{"Nun",   "Hello player."}
-			)
-
-		elseif rect_rect_collision(player:aabb(), signpost:aabb()) then 
+	if pressed('space') then
+		if rect_rect_collision(player:aabb(), signpost:aabb()) then 
 			msgbox:add({"Mayor's house"})
 
 		elseif rect_rect_collision(player:aabb(), door:aabb()) then 

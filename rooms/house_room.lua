@@ -31,6 +31,7 @@ function House_room:new(id)
 	@:add('house_map', house_map)
 	@:add('player', Player(0, 300))
 	@:add('msgbox', Msgbox())
+	@:add('pnj', Pnj(200, 200))
 
 	@.camera:set_zoom(0.5)
 	@.camera:set_position(0, 300)
@@ -42,13 +43,14 @@ function House_room:update(dt)
 	local msgbox = @:get('msgbox')
 
 	if !msgbox:is_empty() then 
-		if pressed('space') then @.msgbox:next() end
+		if pressed('space') then msgbox:next() end
 		return
 	end
 
 	if pressed('1') then game:change_room('menu') end
 
 	local player = @:get('player')
+	local pnj    = @:get('pnj')
 
 	if down('lctrl') then
 		if     down('z') then player:set_state('run_up')
@@ -63,6 +65,18 @@ function House_room:update(dt)
 	end
 
 	if released('q') || released('d') || released('z') || released('s') then 
+		player:stop_moving()
+	end
+
+	if pressed('space') then 
+		if rect_rect_collision(player:aabb(), pnj:aabb()) then
+			msgbox:add(
+				{"Nun",   "I'm a nun."},
+				{"Player","Hello, nun."},
+				{"Nun",   "Hello player."}
+			)
+		end
+
 		player:stop_moving()
 	end
 
